@@ -1,1 +1,20 @@
 This note for script.
+
+Ideal gas Pressure Calculation
+
+clc
+clear all
+close all
+
+rho=1.26; %kg/m^3
+R=287;%J/kg.K
+V=1;%m^3
+%T=300;%K
+%T=[100 300 500];
+T=0:50:600;
+P=rho*R*T
+%m=rho*V
+plot(T,P)
+title('Pressure calculation (Ideal gas)')
+ylabel('Pressure (Pa)')
+xlabel('Temperature (K)')
