@@ -18,3 +18,6 @@ plot(T,P)
 title('Pressure calculation (Ideal gas)')
 ylabel('Pressure (Pa)')
 xlabel('Temperature (K)')
+
+### Matlab 2d plot
+https://www.mathworks.com/help/matlab/ref/plot.html
