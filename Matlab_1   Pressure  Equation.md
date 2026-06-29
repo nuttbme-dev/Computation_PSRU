@@ -5,7 +5,7 @@ Pressure can be calculated using many different methods depending on the fluid, 
 | --------------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | **1. Ideal Gas Law**                    | Low-pressure gases                       | $$PV = nRT$$ or $$P=\rho RT$$                                                                                     |
 | **2. Isentropic Relation**              | Reversible adiabatic (compressible) flow | $$PV^\gamma = \text{constant}$$ , $$\frac{P_2}{P_1} = \left(\frac{T_2}{T_2}\right)^{\frac{\gamma}{\gamma-1}}$$ |
-| **3. Compressibility Factor (Z-Chart)** | Real gases                               | $$PV=ZnRT$$ or $$P=\frac{\rho RT}{Z}$$                                                                            |
+| **3. Compressibility Factor (Z-Chart)** | Real gases                               | $$PV=ZnRT$$                                                                             |
 | **4. van der Waals EOS**                | Real gases (basic EOS)                   | $$P=\frac{RT}{V_m-b}-\frac{a}{V_m^2}$$                                                                            |
 | **5. Soave–Redlich–Kwong (SRK) EOS**    | Real gases, hydrocarbons                 | $$P=\frac{RT}{V_m-b}-\frac{a\alpha}{V_m(V_m+b)}$$                                                                 |
 | **6. Peng–Robinson (PR) EOS**           | Real gases and supercritical fluids      | $$P=\frac{RT}{V_m-b}-\frac{a\alpha}{V_m(V_m+b)+b(V_m-b)}$$                                                        |
