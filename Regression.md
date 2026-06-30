@@ -2,7 +2,7 @@
 
 This document outlines a complete regression analysis for a uniaxial tensile test under a linear-elastic framework. The model accounts for an initial instrumentation offset or residual stress using the equation:
 
-$$\sigma = E \cdot \epsilon + C$$
+$\sigma = E \cdot \epsilon + C$
 
 Where:
 * $\sigma$ = Axial Stress (MPa)
@@ -48,7 +48,7 @@ Summary statistics are calculated for each strain level using the following stan
 ## Step 3: Total Sum of Squares ($SST$)
 $SST$ characterizes the total variance inherent within the observed mean stress data points relative to the global baseline mean ($\bar{\bar{\sigma}} = 311.4 \text{ MPa}$).
 
-$$SST = \sum (\bar{\sigma}_i - \bar{\bar{\sigma}})^2$$
+$SST = \sum (\bar{\sigma}_i - \bar{\bar{\sigma}})^2$
 
 * $(\bar{\sigma}_1 - 311.4)^2 = (105.0 - 311.4)^2 = 42,600.96$
 * $(\bar{\sigma}_2 - 311.4)^2 = (211.0 - 311.4)^2 = 10,080.36$
@@ -56,7 +56,7 @@ $$SST = \sum (\bar{\sigma}_i - \bar{\bar{\sigma}})^2$$
 * $(\bar{\sigma}_4 - 311.4)^2 = (415.0 - 311.4)^2 = 10,732.96$
 * $(\bar{\sigma}_5 - 311.4)^2 = (518.0 - 311.4)^2 = 42,683.56$
 
-$$\mathbf{SST = 106,109.40}$$
+$\mathbf{SST = 106,109.40}$
 
 ---
 
@@ -80,7 +80,7 @@ $$\hat{\sigma} = 206,800 \cdot \epsilon + 1.2$$
 ## Step 5: Residual Sum of Squares ($SSE$)
 $SSE$ quantifies the residual variance that the linear model fails to capture, computing the structural deviation between the empirical mean values ($\bar{\sigma}_i$) and the matching predictions ($\hat{\sigma}_i$).
 
-$$SSE = \sum (\bar{\sigma}_i - \hat{\sigma}_i)^2$$
+$SSE = \sum (\bar{\sigma}_i - \hat{\sigma}_i)^2$
 
 * $(\bar{\sigma}_1 - \hat{\sigma}_1)^2 = (105.0 - 104.6)^2 = 0.16$
 * $(\bar{\sigma}_2 - \hat{\sigma}_2)^2 = (211.0 - 208.0)^2 = 9.00$
@@ -88,18 +88,18 @@ $$SSE = \sum (\bar{\sigma}_i - \hat{\sigma}_i)^2$$
 * $(\bar{\sigma}_4 - \hat{\sigma}_4)^2 = (415.0 - 414.8)^2 = 0.04$
 * $(\bar{\sigma}_5 - \hat{\sigma}_5)^2 = (518.0 - 518.2)^2 = 0.04$
 
-$$\mathbf{SSE = 20.80}$$
+$\mathbf{SSE = 20.80}$
 
 ---
 
 ## Step 6: Coefficient of Determination ($R^2$)
 To assess model fidelity, the global coefficient of determination is calculated:
 
-$$R^2 = 1 - \frac{SSE}{SST}$$
+$R^2 = 1 - \frac{SSE}{SST}$
 
-$$R^2 = 1 - \frac{20.80}{106,109.40}$$
+$R^2 = 1 - \frac{20.80}{106,109.40}$
 
-$$R^2 = 1 - 0.000196 = \mathbf{0.99980}$$
+$R^2 = 1 - 0.000196 = \mathbf{0.99980}$
 
 ### Engineering Interpretation:
 The resulting $R^2$ value of **$0.99980$** demonstrates that **$99.98\%$** of the stress variation in the material's linear-elastic domain is rigorously explained by this model. The minor intercept offset of $1.2\text{ MPa}$ points to a minor pre-load setting inside the machine grips or a localized voltage calibration offset in the acquisition hardware.
