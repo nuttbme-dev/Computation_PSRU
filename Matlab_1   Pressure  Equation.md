@@ -12,7 +12,7 @@ Pressure can be calculated using many different methods depending on the fluid, 
 
 
 **  Z  can calculate  from Papay coreration 
-$$Z = 1 - \frac{3.53P_r}{10^{0.9813T_r}} + \frac{0.274P_r^2}{10^{0.8157T_r}}$$,
+$$Z = 1 - \frac{3.53P_r}{10^{0.9813T_r}} + \frac{0.274P_r^2}{10^{0.8157T_r}}$$ οr $$Z = 1 - 3.53 P_r e^{-2.2595 T_r} + 0.274 P_r^2 e^{-1.8782 T_r}$$
 ### Notation
 
 $P$ = Pressure (Pa)  
@@ -40,8 +40,20 @@ Given:
 - Volume, $V = 1.0\ \text{m}^3$  
 - Gas constant, $R = 287\ \text{J/(kg·K)}$  
 - Heat capacity ratio, $\gamma = 1.4$  
-- Reference pressure, $P_1 = 100\ \text{kPa}$  
-- Compressibility factors (typical values):  
+- Reference pressure, $P_1 = 100\ \text{kPa}$
+
+### Example code for Calculation pressure using Ideal gas method
+```matlab
+% Papay correlation for Z-factor
+Pr = 2.5; 
+Tr = 1.3;
+
+% Calculating using the exponential form
+Z = 1 - 3.53*Pr*exp(-2.2595*Tr) + 0.274*(Pr^2)*exp(-1.8782*Tr);
+
+disp(['The compressibility factor Z is: ', num2cells(Z)])
+```
+
 
 
 
