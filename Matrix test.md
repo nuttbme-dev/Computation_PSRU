@@ -43,12 +43,12 @@ C=\begin{bmatrix}
 \end{bmatrix},
 \qquad
 D=\begin{bmatrix}
-4 & \square\\
+4 & -4\\
 5 & 2
 \end{bmatrix}
 $$
 
-> **Note:** The element in row 1, column 2 of matrix \(D\) was missing in the original document.
+
 
 $$
 C-D=
@@ -130,7 +130,7 @@ $$
 
 ---
 
-#### 7. Compute \(\frac12 C\)
+#### 7. Compute \(1/2 C\)
 
 $$
 C=
@@ -258,7 +258,7 @@ $$
 
 ### D. Determinants
 
-#### 13. Find \(\det(A)\)
+#### 13. Find \(det(A)\)
 
 $$
 A=
@@ -274,7 +274,7 @@ $$
 
 ---
 
-#### 14. Find \(\det(B)\)
+#### 14. Find \(det(B)\)
 
 $$
 B=
@@ -290,7 +290,7 @@ $$
 
 ---
 
-#### 15. Find \(\det(C)\)
+#### 15. Find \(det(C)\)
 
 $$
 C=
@@ -307,7 +307,7 @@ $$
 
 ---
 
-#### 16. Find \(\det(D)\)
+#### 16. Find \(det(D)\)
 
 $$
 D=
