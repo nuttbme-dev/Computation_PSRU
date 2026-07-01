@@ -1789,9 +1789,7 @@ $$
 
 Replace the first column:
 
-$$
-\mathbf{A}_1
-=
+$$\mathbf{A}_1=
 \begin{bmatrix}
 0 & 1 \\
 -10 & -3
@@ -1889,9 +1887,7 @@ $$
 
 For $\lambda_1 = -1$, the eigenvector is
 
-$$
-\mathbf{v}_1
-=
+$$\mathbf{v}_1=
 \begin{bmatrix}
 1 \\
 -1
