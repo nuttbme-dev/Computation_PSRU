@@ -136,23 +136,17 @@ If the coefficient matrix is square and non-singular, then the system has a uniq
 
 For a square system,
 
-$$
-\mathbf{A}_{n\times n}\mathbf{x}_{n\times1}
-=
+$$\mathbf{A}_{n\times n}\mathbf{x}_{n\times1}=
 \mathbf{b}_{n\times1}
 $$
 
 If
 
-$$
-\det(\mathbf{A}) \neq 0
-$$
+$$\det(\mathbf{A}) \neq 0$$
 
 then the inverse matrix exists, and the solution is
 
-$$
-\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}
-$$
+$$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$
 
 ---
 
@@ -160,40 +154,30 @@ $$
 
 For a $2 \times 2$ matrix,
 
-$$
-\mathbf{A}_{2\times2}
-=
+$$\mathbf{A}_{2\times2}=
 \begin{bmatrix}
 a_{11} & a_{12} \\
 a_{21} & a_{22}
-\end{bmatrix}
-$$
+\end{bmatrix}$$
 
 the determinant is
 
-$$
-\det(\mathbf{A})
-=
+$$\det(\mathbf{A})=
 a_{11}a_{22} - a_{12}a_{21}
 $$
 
 If the determinant is not zero, the inverse is
 
-$$
-\mathbf{A}^{-1}
-=
-\frac{1}{a_{11}a_{22}-a_{12}a_{21}}
+$$\mathbf{A}^{-1}
+=\frac{1}{a_{11}a_{22}-a_{12}a_{21}}
 \begin{bmatrix}
 a_{22} & -a_{12} \\
 -a_{21} & a_{11}
-\end{bmatrix}
-$$
+\end{bmatrix}$$
 
 The solution is then
 
-$$
-\mathbf{x}_{2\times1}
-=
+$$\mathbf{x}_{2\times1}=
 \mathbf{A}^{-1}_{2\times2}
 \mathbf{b}_{2\times1}
 $$
@@ -282,9 +266,7 @@ In solid mechanics, stress at a point can be represented using a stress tensor.
 
 For a 2D plane stress state, the stress tensor has dimension $2\times2$:
 
-$$
-\boldsymbol{\sigma}_{2\times2}
-=
+$$\boldsymbol{\sigma}_{2\times2}=
 \begin{bmatrix}
 \sigma_{xx} & \tau_{xy} \\
 \tau_{yx} & \sigma_{yy}
@@ -299,9 +281,7 @@ Consider a structural element under plane stress with:
 
 The stress tensor is
 
-$$
-\boldsymbol{\sigma}_{2\times2}
-=
+$$\boldsymbol{\sigma}_{2\times2}=
 \begin{bmatrix}
 80 & 30 \\
 30 & 20
@@ -314,24 +294,19 @@ $$
 
 Using Cauchy's stress formula, the traction vector $\mathbf{T}$ acting on a plane is
 
-$$
-\boldsymbol{\sigma}\mathbf{n} = \mathbf{T}
+$$\boldsymbol{\sigma}\mathbf{n} = \mathbf{T}
 $$
 
 For the 2D case, the dimension is
 
-$$
-\boldsymbol{\sigma}_{2\times2}
-\mathbf{n}_{2\times1}
-=
+$$\boldsymbol{\sigma}_{2\times2}
+\mathbf{n}_{2\times1}=
 \mathbf{T}_{2\times1}
 $$
 
 Let the traction vector be
 
-$$
-\mathbf{T}_{2\times1}
-=
+$$\mathbf{T}_{2\times1}=
 \begin{bmatrix}
 70 \\
 40
@@ -341,10 +316,8 @@ $$
 
 and the normal direction vector be
 
-$$
-\mathbf{n}_{2\times1}
-=
-\begin{bmatrix}
+$$\mathbf{n}_{2\times1}
+=\begin{bmatrix}
 n_x \\
 n_y
 \end{bmatrix}
@@ -352,16 +325,7 @@ $$
 
 The matrix system becomes
 
-$$
-\begin{bmatrix}
-80 & 30 \\
-30 & 20
-\end{bmatrix}
-\begin{bmatrix}
-n_x \\
-n_y
-\end{bmatrix}
-=
+$$\begin{bmatrix}80 & 30 \\ 30 & 20\end{bmatrix}\begin{bmatrix}n_x \\ n_y\end{bmatrix}=
 \begin{bmatrix}
 70 \\
 40
@@ -395,14 +359,7 @@ $$
 R_1 \leftarrow \frac{R_1}{80}
 $$
 
-$$
-\left[
-\begin{array}{cc|c}
-1 & 0.375 & 0.875 \\
-30 & 20 & 40
-\end{array}
-\right]
-$$
+$$\left[\begin{array}{cc|c}1 & 0.375 & 0.875 \\ 30 & 20 & 40\end{array}\right]$$
 
 Eliminate the first coefficient in Row 2:
 
@@ -454,9 +411,7 @@ $$
 R_1 \leftarrow R_1 - 0.375R_2
 $$
 
-$$
-0.875 - 0.375\left(\frac{11}{7}\right)
-=
+$$0.875 - 0.375\left(\frac{11}{7}\right)=
 \frac{2}{7}
 $$
 
@@ -473,9 +428,7 @@ $$
 
 The solution is
 
-$$
-\mathbf{n}
-=
+$$\mathbf{n}=
 \begin{bmatrix}
 \frac{2}{7} \\
 \frac{11}{7}
@@ -499,9 +452,7 @@ $$
 
 The determinant of the stress matrix is
 
-$$
-D
-=
+$$D=
 \det
 \begin{bmatrix}
 80 & 30 \\
@@ -519,9 +470,7 @@ $$
 
 Replace the first column with $\mathbf{T}$:
 
-$$
-\mathbf{A}_1
-=
+$$\mathbf{A}_1=
 \begin{bmatrix}
 70 & 30 \\
 40 & 20
@@ -538,19 +487,13 @@ $$
 
 Thus,
 
-$$
-n_x = \frac{D_1}{D}
-=
-\frac{200}{700}
-=
+$$n_x = \frac{D_1}{D}=\frac{200}{700} =
 \frac{2}{7}
 $$
 
 Replace the second column with $\mathbf{T}$:
 
-$$
-\mathbf{A}_2
-=
+$$\mathbf{A}_2=
 \begin{bmatrix}
 80 & 70 \\
 30 & 40
@@ -567,19 +510,13 @@ $$
 
 Thus,
 
-$$
-n_y = \frac{D_2}{D}
-=
-\frac{1100}{700}
-=
+$$n_y = \frac{D_2}{D}=\frac{1100}{700}=
 \frac{11}{7}
 $$
 
 The final result is
 
-$$
-\mathbf{n}
-=
+$$\mathbf{n}=
 \begin{bmatrix}
 \frac{2}{7} \\
 \frac{11}{7}
@@ -594,9 +531,7 @@ Although the vector is written as $\mathbf{n}$, the result is not a unit normal 
 
 The magnitude is
 
-$$
-|\mathbf{n}|
-=
+$$|\mathbf{n}|=
 \sqrt{
 \left(\frac{2}{7}\right)^2
 +
@@ -604,13 +539,9 @@ $$
 }
 $$
 
-$$
-|\mathbf{n}|
-=
-\sqrt{\frac{4}{49}+\frac{121}{49}}
-=
-\sqrt{\frac{125}{49}}
-=
+$$|\mathbf{n}|=
+\sqrt{\frac{4}{49}+\frac{121}{49}}=
+\sqrt{\frac{125}{49}}=
 \frac{\sqrt{125}}{7}
 $$
 
@@ -624,9 +555,7 @@ this vector should be interpreted as a direction vector associated with the give
 
 If a true unit normal is required, the vector must be normalized:
 
-$$
-\hat{\mathbf{n}}
-=
+$$\hat{\mathbf{n}}=
 \frac{\mathbf{n}}{|\mathbf{n}|}
 $$
 
@@ -638,10 +567,8 @@ In fluid mechanics, the complete stress state at a point in 3D space is represen
 
 The general 3D stress tensor is
 
-$$
-\boldsymbol{\sigma}_{3\times3}
-=
-\begin{bmatrix}
+$$\boldsymbol{\sigma}_{3\times3}
+=\begin{bmatrix}
 \sigma_{xx} & \tau_{xy} & \tau_{xz} \\
 \tau_{yx} & \sigma_{yy} & \tau_{yz} \\
 \tau_{zx} & \tau_{zy} & \sigma_{zz}
@@ -670,9 +597,7 @@ A fluid element inside a high-pressure vortex pump experiences:
 
 The stress tensor is
 
-$$
-\boldsymbol{\sigma}_A
-=
+$$\boldsymbol{\sigma}_A=
 \begin{bmatrix}
 -50 & 10 & 0 \\
 10 & -50 & 0 \\
@@ -684,9 +609,7 @@ This is a $3\times3$ matrix.
 
 Expanding along the third row:
 
-$$
-\det(\boldsymbol{\sigma}_A)
-=
+$$\det(\boldsymbol{\sigma}_A)=
 -30
 \det
 \begin{bmatrix}
@@ -695,26 +618,19 @@ $$
 \end{bmatrix}
 $$
 
-$$
-\det(\boldsymbol{\sigma}_A)
-=
+$$\det(\boldsymbol{\sigma}_A)=
 -30
 \left[
 (-50)(-50) - (10)(10)
 \right]
 $$
 
-$$
-\det(\boldsymbol{\sigma}_A)
-=
+$$\det(\boldsymbol{\sigma}_A)=
 -30(2500 - 100)
 $$
 
-$$
-\det(\boldsymbol{\sigma}_A)
-=
--30(2400)
-=
+$$\det(\boldsymbol{\sigma}_A)=
+-30(2400)=
 -72000
 $$
 
@@ -740,9 +656,7 @@ A fluid element near a boundary layer experiences:
 
 The stress tensor is
 
-$$
-\boldsymbol{\sigma}_B
-=
+$$\boldsymbol{\sigma}_B=
 \begin{bmatrix}
 0 & 40 & 0 \\
 40 & -40 & 0 \\
@@ -774,10 +688,8 @@ To demonstrate a positive determinant, consider a fluid element with tensile nor
 
 The stress tensor is
 
-$$
-\boldsymbol{\sigma}_C
-=
-\begin{bmatrix}
+$$\boldsymbol{\sigma}_C
+=\begin{bmatrix}
 20 & 5 & 0 \\
 5 & 20 & 0 \\
 0 & 0 & 10
@@ -786,9 +698,7 @@ $$
 
 Expanding along the third row:
 
-$$
-\det(\boldsymbol{\sigma}_C)
-=
+$$\det(\boldsymbol{\sigma}_C)=
 10
 \det
 \begin{bmatrix}
@@ -797,26 +707,19 @@ $$
 \end{bmatrix}
 $$
 
-$$
-\det(\boldsymbol{\sigma}_C)
-=
+$$\det(\boldsymbol{\sigma}_C)=
 10
 \left[
 (20)(20) - (5)(5)
 \right]
 $$
 
-$$
-\det(\boldsymbol{\sigma}_C)
-=
+$$\det(\boldsymbol{\sigma}_C)=
 10(400 - 25)
 $$
 
-$$
-\det(\boldsymbol{\sigma}_C)
-=
-10(375)
-=
+$$\det(\boldsymbol{\sigma}_C)=
+10(375)=
 3750
 $$
 
