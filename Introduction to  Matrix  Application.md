@@ -739,18 +739,13 @@ In liquids, sustained tensile stress may be related to cavitation, where vapor b
 
 For a stress tensor, the eigenvalue problem is
 
-$$
-\boldsymbol{\sigma}\mathbf{v}
-=
+$$\boldsymbol{\sigma}\mathbf{v}=
 \lambda\mathbf{v}
 $$
 
 For a 2D stress tensor, the dimension is
 
-$$
-\boldsymbol{\sigma}_{2\times2}
-\mathbf{v}_{2\times1}
-=
+$$\boldsymbol{\sigma}_{2\times2}\mathbf{v}_{2\times1}=
 \lambda
 \mathbf{v}_{2\times1}
 $$
@@ -773,9 +768,7 @@ where $\mathbf{I}$ is the identity matrix.
 
 Consider a 2D fluid stress tensor:
 
-$$
-\boldsymbol{\sigma}_{fluid}
-=
+$$\boldsymbol{\sigma}_{fluid}=
 \begin{bmatrix}
 -40 & 10 \\
 10 & -40
@@ -786,28 +779,11 @@ This is a $2\times2$ matrix.
 
 The eigenvalue equation is
 
-$$
-\det
-\left(
-\boldsymbol{\sigma}_{fluid}
--
-\lambda\mathbf{I}
-\right)
-=
-0
-$$
+$$\det\left(\boldsymbol{\sigma}_{fluid} - \lambda\mathbf{I}\right)=0$$
 
 Thus,
 
-$$
-\det
-\begin{bmatrix}
--40-\lambda & 10 \\
-10 & -40-\lambda
-\end{bmatrix}
-=
-0
-$$
+$$\det\begin{bmatrix}-40-\lambda & 10 \\ 10 & -40-\lambda\end{bmatrix}=0$$
 
 Expanding the determinant:
 
@@ -843,12 +819,7 @@ $$
 
 For $\lambda_1 = -30$:
 
-$$
-\boldsymbol{\sigma}_{fluid}
--
-\lambda_1\mathbf{I}
-=
-\begin{bmatrix}
+$$\boldsymbol{\sigma}_{fluid}-\lambda_1\mathbf{I}=\begin{bmatrix}
 -10 & 10 \\
 10 & -10
 \end{bmatrix}
@@ -856,16 +827,7 @@ $$
 
 Solve:
 
-$$
-\begin{bmatrix}
--10 & 10 \\
-10 & -10
-\end{bmatrix}
-\begin{bmatrix}
-v_x \\
-v_y
-\end{bmatrix}
-=
+$$\begin{bmatrix}-10 & 10 \\ 10 & -10\end{bmatrix}\begin{bmatrix} v_x \\ v_y\end{bmatrix}=
 \begin{bmatrix}
 0 \\
 0
@@ -886,9 +848,7 @@ $$
 
 The normalized eigenvector is
 
-$$
-\mathbf{v}_1
-=
+$$\mathbf{v}_1=
 \begin{bmatrix}
 \frac{1}{\sqrt{2}} \\
 \frac{1}{\sqrt{2}}
@@ -899,9 +859,7 @@ This direction is rotated at $45^\circ$.
 
 For $\lambda_2 = -50$, the corresponding eigenvector is
 
-$$
-\mathbf{v}_2
-=
+$$\mathbf{v}_2=
 \begin{bmatrix}
 -\frac{1}{\sqrt{2}} \\
 \frac{1}{\sqrt{2}}
@@ -918,9 +876,7 @@ The eigenvalues show that the fluid element experiences different compression le
 
 Consider a structural element under pure shear:
 
-$$
-\boldsymbol{\sigma}_{solid}
-=
+$$\boldsymbol{\sigma}_{solid}=
 \begin{bmatrix}
 0 & 60 \\
 60 & 0
@@ -931,13 +887,7 @@ This is a $2\times2$ stress tensor.
 
 The characteristic equation is
 
-$$
-\det
-\begin{bmatrix}
--\lambda & 60 \\
-60 & -\lambda
-\end{bmatrix}
-=
+$$\det\begin{bmatrix}-\lambda & 60 \\ 60 & -\lambda \end{bmatrix}=
 0
 $$
 
@@ -965,16 +915,7 @@ $$
 
 For $\lambda_1 = 60$:
 
-$$
-\begin{bmatrix}
--60 & 60 \\
-60 & -60
-\end{bmatrix}
-\begin{bmatrix}
-v_x \\
-v_y
-\end{bmatrix}
-=
+$$\begin{bmatrix}-60 & 60 \\ 60 & -60\end{bmatrix}\begin{bmatrix} v_x \\ v_y \end{bmatrix}=
 \begin{bmatrix}
 0 \\
 0
@@ -989,9 +930,7 @@ $$
 
 The normalized eigenvector is
 
-$$
-\mathbf{v}_1
-=
+$$\mathbf{v}_1=
 \begin{bmatrix}
 \frac{1}{\sqrt{2}} \\
 \frac{1}{\sqrt{2}}
@@ -1006,9 +945,7 @@ $$
 
 The normalized eigenvector is
 
-$$
-\mathbf{v}_2
-=
+$$\mathbf{v}_2=
 \begin{bmatrix}
 -\frac{1}{\sqrt{2}} \\
 \frac{1}{\sqrt{2}}
@@ -1076,9 +1013,7 @@ $$
 
 Define the wheel velocity vector as
 
-$$
-\mathbf{u}_{2\times1}
-=
+$$\mathbf{u}_{2\times1}=
 \begin{bmatrix}
 v_R \\
 v_L
@@ -1087,9 +1022,7 @@ $$
 
 Define the robot motion vector as
 
-$$
-\mathbf{y}_{2\times1}
-=
+$$\mathbf{y}_{2\times1}=
 \begin{bmatrix}
 v_B \\
 \omega
@@ -1098,18 +1031,14 @@ $$
 
 The transformation is
 
-$$
-\mathbf{y}_{2\times1}
-=
+$$\mathbf{y}_{2\times1}=
 \mathbf{A}_{robot}
 \mathbf{u}_{2\times1}
 $$
 
 where
 
-$$
-\mathbf{A}_{robot}
-=
+$$\mathbf{A}_{robot}=
 \begin{bmatrix}
 0.5 & 0.5 \\
 2 & -2
@@ -1118,12 +1047,7 @@ $$
 
 Therefore,
 
-$$
-\begin{bmatrix}
-v_B \\
-\omega
-\end{bmatrix}
-=
+$$\begin{bmatrix} v_B \\ \omega \end{bmatrix}=
 \begin{bmatrix}
 0.5 & 0.5 \\
 2 & -2
@@ -1146,17 +1070,11 @@ $$
 
 The determinant is
 
-$$
-\det(\mathbf{A}_{robot})
-=
+$$\det(\mathbf{A}_{robot})=
 (0.5)(-2) - (0.5)(2)
 $$
 
-$$
-\det(\mathbf{A}_{robot})
-=
--1 - 1
-=
+$$\det(\mathbf{A}_{robot})=-1 - 1=
 -2
 $$
 
@@ -1186,9 +1104,7 @@ $$
 
 Then,
 
-$$
-\mathbf{b}
-=
+$$\mathbf{b}=
 \begin{bmatrix}
 2 \\
 4
@@ -1197,16 +1113,8 @@ $$
 
 The system is
 
-$$
-\begin{bmatrix}
-0.5 & 0.5 \\
-2 & -2
-\end{bmatrix}
-\begin{bmatrix}
-v_R \\
-v_L
-\end{bmatrix}
-=
+$$\begin{bmatrix}0.5 & 0.5 \\ 2 & -2\end{bmatrix}\begin{bmatrix}v_R \\ v_L
+\end{bmatrix} =
 \begin{bmatrix}
 2 \\
 4
@@ -1221,9 +1129,7 @@ $$
 
 Replace the first column:
 
-$$
-\mathbf{A}_1
-=
+$$\mathbf{A}_1=
 \begin{bmatrix}
 2 & 0.5 \\
 4 & -2
@@ -1240,19 +1146,13 @@ $$
 
 Therefore,
 
-$$
-v_R = \frac{D_1}{D}
-=
-\frac{-6}{-2}
-=
+$$v_R = \frac{D_1}{D}=\frac{-6}{-2}=
 3 \ \text{m/s}
 $$
 
 Replace the second column:
 
-$$
-\mathbf{A}_2
-=
+$$\mathbf{A}_2=
 \begin{bmatrix}
 0.5 & 2 \\
 2 & 4
@@ -1269,11 +1169,7 @@ $$
 
 Therefore,
 
-$$
-v_L = \frac{D_2}{D}
-=
-\frac{-2}{-2}
-=
+$$v_L = \frac{D_2}{D}=\frac{-2}{-2}=
 1 \ \text{m/s}
 $$
 
@@ -1299,13 +1195,7 @@ $$
 
 Thus,
 
-$$
-\det
-\begin{bmatrix}
-0.5-\lambda & 0.5 \\
-2 & -2-\lambda
-\end{bmatrix}
-=
+$$\det\begin{bmatrix}0.5-\lambda & 0.5 \\ 2 & -2-\lambda\end{bmatrix}=
 0
 $$
 
@@ -1397,9 +1287,7 @@ $$
 
 Define the joint velocity vector:
 
-$$
-\dot{\boldsymbol{\theta}}_{2\times1}
-=
+$$\dot{\boldsymbol{\theta}}_{2\times1}=
 \begin{bmatrix}
 \dot{\theta}_1 \\
 \dot{\theta}_2
@@ -1408,9 +1296,7 @@ $$
 
 Define the end-effector velocity vector:
 
-$$
-\dot{\mathbf{x}}_{2\times1}
-=
+$$\dot{\mathbf{x}}_{2\times1}=
 \begin{bmatrix}
 \dot{x} \\
 \dot{y}
@@ -1419,18 +1305,14 @@ $$
 
 The velocity mapping is
 
-$$
-\dot{\mathbf{x}}_{2\times1}
-=
+$$\dot{\mathbf{x}}_{2\times1}=
 \mathbf{J}_{2\times2}
 \dot{\boldsymbol{\theta}}_{2\times1}
 $$
 
 where $\mathbf{J}$ is the Jacobian matrix:
 
-$$
-\mathbf{J}_{2\times2}
-=
+$$\mathbf{J}_{2\times2}=
 \begin{bmatrix}
 2 & -2 \\
 3 & 1
@@ -1439,12 +1321,9 @@ $$
 
 Therefore,
 
-$$
-\begin{bmatrix}
-\dot{x} \\
+$$\begin{bmatrix}\dot{x} \\
 \dot{y}
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 2 & -2 \\
 3 & 1
@@ -1467,19 +1346,9 @@ $$
 
 The determinant of the Jacobian is
 
-$$
-\det(\mathbf{J})
-=
-(2)(1) - (-2)(3)
-$$
+$$\det(\mathbf{J})=(2)(1) - (-2)(3)$$
 
-$$
-\det(\mathbf{J})
-=
-2 + 6
-=
-8
-$$
+$$\det(\mathbf{J})=2 + 6=8$$
 
 Since
 
@@ -1515,16 +1384,12 @@ $$
 
 The system becomes
 
-$$
-\begin{bmatrix}
-2 & -2 \\
-3 & 1
+$$\begin{bmatrix}2 & -2 \\ 3 & 1
 \end{bmatrix}
 \begin{bmatrix}
 \dot{\theta}_1 \\
 \dot{\theta}_2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 -4 \\
 6
@@ -1539,9 +1404,7 @@ $$
 
 Replace the first column:
 
-$$
-\mathbf{J}_1
-=
+$$\mathbf{J}_1=
 \begin{bmatrix}
 -4 & -2 \\
 6 & 1
@@ -1558,21 +1421,15 @@ $$
 
 Therefore,
 
-$$
-\dot{\theta}_1
-=
-\frac{D_1}{D}
-=
-\frac{8}{8}
-=
+$$\dot{\theta}_1=\frac{D_1}{D}=
+\frac{8}{8}=
 1 \ \text{rad/s}
 $$
 
 Replace the second column:
 
 $$
-\mathbf{J}_2
-=
+\mathbf{J}_2=
 \begin{bmatrix}
 2 & -4 \\
 3 & 6
@@ -1589,13 +1446,9 @@ $$
 
 Therefore,
 
-$$
-\dot{\theta}_2
-=
-\frac{D_2}{D}
-=
-\frac{24}{8}
-=
+$$\dot{\theta}_2=
+\frac{D_2}{D}=
+\frac{24}{8}=
 3 \ \text{rad/s}
 $$
 
@@ -1621,13 +1474,9 @@ $$
 
 Thus,
 
-$$
-\det
-\begin{bmatrix}
-2-\lambda & -2 \\
+$$\det\begin{bmatrix}2-\lambda & -2 \\
 3 & 1-\lambda
-\end{bmatrix}
-=
+\end{bmatrix}=
 0
 $$
 
@@ -1670,8 +1519,7 @@ $$
 $$
 
 $$
-\lambda
-=
+\lambda=
 1.5 \pm 2.397i
 $$
 
@@ -1760,14 +1608,10 @@ $$
 
 The state vector is
 
-$$
-\mathbf{x}_{2\times1}
-=
-\begin{bmatrix}
+$$\mathbf{x}_{2\times1}=\begin{bmatrix}
 x_1 \\
 x_2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 x \\
 \dot{x}
@@ -1777,8 +1621,7 @@ $$
 The state-space equation is
 
 $$
-\dot{\mathbf{x}}_{2\times1}
-=
+\dot{\mathbf{x}}_{2\times1}=
 \mathbf{A}_{state}
 \mathbf{x}_{2\times1}
 +
@@ -1794,8 +1637,7 @@ $$
 The system matrix is
 
 $$
-\mathbf{A}_{state}
-=
+\mathbf{A}_{state}=
 \begin{bmatrix}
 0 & 1 \\
 -2 & -3
@@ -1804,9 +1646,7 @@ $$
 
 The input matrix is
 
-$$
-\mathbf{B}_{2\times1}
-=
+$$\mathbf{B}_{2\times1}=
 \begin{bmatrix}
 0 \\
 1
@@ -1815,12 +1655,9 @@ $$
 
 Therefore,
 
-$$
-\begin{bmatrix}
-\dot{x}_1 \\
+$$\begin{bmatrix}\dot{x}_1 \\
 \dot{x}_2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 0 & 1 \\
 -2 & -3
@@ -1849,9 +1686,7 @@ $$
 
 The determinant of the state matrix is
 
-$$
-\det(\mathbf{A}_{state})
-=
+$$\det(\mathbf{A}_{state})=
 (0)(-3) - (1)(-2)
 $$
 
@@ -1904,8 +1739,7 @@ $$
 The state-space equation becomes
 
 $$
-\mathbf{0}
-=
+\mathbf{0}=
 \mathbf{A}_{state}\mathbf{x}
 +
 \mathbf{B}F
@@ -1914,8 +1748,7 @@ $$
 So,
 
 $$
-\mathbf{A}_{state}\mathbf{x}
-=
+\mathbf{A}_{state}\mathbf{x}=
 -\mathbf{B}F
 $$
 
@@ -1923,15 +1756,7 @@ Substitute the values:
 
 $$
 \begin{bmatrix}
-0 & 1 \\
--2 & -3
-\end{bmatrix}
-\begin{bmatrix}
-x_1 \\
-x_2
-\end{bmatrix}
-=
--
+0 & 1 \\ -2 & -3 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}= -
 \begin{bmatrix}
 0 \\
 1
@@ -1949,8 +1774,7 @@ $$
 \begin{bmatrix}
 x_1 \\
 x_2
-\end{bmatrix}
-=
+\end{bmatrix}=
 \begin{bmatrix}
 0 \\
 -10
@@ -1985,10 +1809,8 @@ $$
 Therefore,
 
 $$
-x_1 = \frac{D_1}{D}
-=
-\frac{10}{2}
-=
+x_1 = \frac{D_1}{D}=
+\frac{10}{2}=
 5 \ \text{m}
 $$
 
@@ -2001,8 +1823,7 @@ $$
 Therefore, the final equilibrium state is
 
 $$
-\mathbf{x}_{ss}
-=
+\mathbf{x}_{ss}=
 \begin{bmatrix}
 5 \\
 0
@@ -2029,13 +1850,10 @@ $$
 
 Thus,
 
-$$
-\det
-\begin{bmatrix}
+$$\det\begin{bmatrix}
 -\lambda & 1 \\
 -2 & -3-\lambda
-\end{bmatrix}
-=
+\end{bmatrix}=
 0
 $$
 
@@ -2083,8 +1901,7 @@ $$
 For $\lambda_2 = -2$, the eigenvector is
 
 $$
-\mathbf{v}_2
-=
+\mathbf{v}_2=
 \begin{bmatrix}
 1 \\
 -2
@@ -2099,27 +1916,7 @@ Physically, this means that after a disturbance, the mass returns smoothly to eq
 
 ---
 
-## 11. Summary of Correct Matrix Dimensions
-
-The following table summarizes the correct matrix names and dimensions used in this document.
-
-| Application | Matrix name | Dimension | Meaning |
-|---|---:|---:|---|
-| General linear system | $\mathbf{A}$ | $m\times n$ | Coefficient matrix |
-| Square solvable system | $\mathbf{A}$ | $n\times n$ | Invertible coefficient matrix if $\det(\mathbf{A})\neq0$ |
-| Two-variable algebra example | $\mathbf{A}_{2\times2}$ | $2\times2$ | Coefficient matrix |
-| Unknown vector | $\mathbf{x}$ | $n\times1$ | Unknown variables |
-| Constant vector | $\mathbf{b}$ | $m\times1$ | Known outputs |
-| 2D stress tensor | $\boldsymbol{\sigma}_{2\times2}$ | $2\times2$ | Plane stress tensor |
-| 3D stress tensor | $\boldsymbol{\sigma}_{3\times3}$ | $3\times3$ | Full 3D Cauchy stress tensor |
-| Differential drive robot | $\mathbf{A}_{robot}$ | $2\times2$ | Wheel-to-body velocity transformation |
-| Robot manipulator | $\mathbf{J}_{2\times2}$ | $2\times2$ | Velocity Jacobian |
-| Suspension dynamics | $\mathbf{A}_{state}$ | $2\times2$ | State-space system matrix |
-| Suspension input matrix | $\mathbf{B}$ | $2\times1$ | Force input matrix |
-
----
-
-## 12. Final Concept
+## 11. Summary
 
 Matrix algebra is powerful because it allows many engineering systems to be written in one compact mathematical form.
 
@@ -2139,20 +1936,3 @@ A $3\times3$ matrix may represent:
 - A 3D transformation matrix
 - A spatial inertia or dynamics matrix
 
-Therefore, matrix dimension must always be checked together with physical meaning.
-
-The most important rule is:
-
-$$
-\text{Inner dimensions must match.}
-$$
-
-For example,
-
-$$
-\mathbf{A}_{m\times n}\mathbf{x}_{n\times1}
-=
-\mathbf{b}_{m\times1}
-$$
-
-This rule ensures that the matrix operation is mathematically valid and physically meaningful.
