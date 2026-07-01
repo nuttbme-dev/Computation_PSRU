@@ -1,639 +1,2255 @@
-# Matrix Algebra in Engineering Applications
+# Matrix Algebra in Engineering Systems
 
-In engineering, complex physical systems are rarely governed by isolated variables. Instead, real-world phenomena—such as the distribution of forces inside a structural beam or the pressure distribution within a fluid body—depend on interrelated parameters acting in three dimensions. To track, calculate, and solve these interdependent variables simultaneously, engineers rely on linear systems of equations.
+In engineering, complex physical systems are rarely governed by isolated variables. Instead, real-world phenomena such as stress distribution in a structural beam, pressure distribution in a fluid element, or velocity transformation in a robotic system depend on several interrelated variables acting together.
+
+To describe these interdependent variables in a compact and systematic way, engineers use **linear systems of equations** and **matrix algebra**.
 
 ![Stress tensor](<https://cdn.discordapp.com/attachments/1521724868738023507/1521725252852518942/image.png?ex=6a45e094&is=6a448f14&hm=dcc4e465ce40fb7614f8042cecba411e029744ffb0c21e1ee1285a0c1239fb28&>)
 
-
-Writing these systems out using classical algebra becomes highly inefficient and prone to error as dimensions scale. This is where **Matrix Algebra** becomes an indispensable tool. A matrix transforms an unwieldy system of linear equations into a singular, compact mathematical entity:
+A linear system can be written compactly as
 
 $$\mathbf{A}\mathbf{x} = \mathbf{b}$$
 
+where:
 
-By organizing structural stiffness coefficients, material properties, or fluid pressures into structured arrays, we can apply standardized numerical algorithms to find exact physical solutions. Two of the most common applications of this matrix framework in continuum mechanics are:
-1. **Solids (Structural Engineering):** Tracking internal normal and shear stresses acting across different cut planes of loaded structures like beams, shafts, or bridges.
-2. **Fluids (Fluid Dynamics & Hydraulics):** Resolving hydrostatic pressures, tracking flow fields, and predicting velocity vectors in contained or dynamic fluid bodies.
+- $\mathbf{A}$ is the coefficient matrix.
+- $\mathbf{x}$ is the unknown vector.
+- $\mathbf{b}$ is the constant vector.
 
-The sections below outline how we systematically transition from a raw system of algebraic equations to a formal matrix structure, exploring the fundamental computational tools used to resolve them.
+The dimension of each matrix or vector depends on the physical problem. For example, a two-variable algebra problem uses a $2 \times 2$ matrix, a 3D stress tensor uses a $3 \times 3$ matrix, and a state-space model may use a system matrix together with an input matrix.
+
+Two common engineering applications of this matrix framework are:
+
+1. **Solids and Structural Engineering:** stress tensors, principal stresses, and traction vectors.
+2. **Fluids, Robotics, and Dynamics:** fluid stress states, velocity transformations, Jacobians, and state-space models.
 
 ---
 
 ## 1. Linear System of Equations to Matrix Equation
 
-A system of linear equations consists of multiple algebraic equations sharing common unknowns. For a standard 2D ($2 \times 2$) system, we write:
+A system of linear equations consists of multiple equations sharing common unknown variables.
 
-$$a_{11}x_1 + a_{12}x_2 = b_1$$
+For a two-variable system:
 
-$$a_{21}x_1 + a_{22}x_2 = b_2$$
+$$
+a_{11}x_1 + a_{12}x_2 = b_1
+$$
 
+$$
+a_{21}x_1 + a_{22}x_2 = b_2
+$$
 
-To scale this to arbitrary dimensions efficiently, we map this system into a compact **matrix equation**:
+This system can be written in matrix form as
+
+$$\mathbf{A}_{2\times2}\mathbf{x}_{2\times1}=\mathbf{b}_{2\times1}$$
+
+where the coefficient matrix is
+
+$$\mathbf{A}_{2\times2}=
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix}$$
+
+the unknown vector is
+
+$$\mathbf{x}_{2\times1}=
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}$$
+
+and the constant vector is
+
+$$\mathbf{b}_{2\times1}=
+\begin{bmatrix}
+b_1 \\
+b_2
+\end{bmatrix}$$
+
+Therefore, the full matrix equation becomes
+
+$$\begin{bmatrix}a_{11} & a_{12} \\ a_{21} & a_{22}\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}=
+\begin{bmatrix}
+b_1 \\
+b_2
+\end{bmatrix}$$
+
+The dimension check is
+
+$$
+(2\times2)(2\times1) = (2\times1)
+$$
+
+This confirms that the multiplication is valid.
+
+---
+
+## 2. General Matrix Dimension Rule
+
+For a general matrix equation,
 
 $$\mathbf{A}\mathbf{x} = \mathbf{b}$$
 
+the dimensions may be written as
 
-Where:
-* **$\mathbf{A}$ (Coefficient Matrix):** A square $2 \times 2$ grid storing the scaling weights of the system:
+$$\mathbf{A}_{m\times n}\mathbf{x}_{n\times1}=
+\mathbf{b}_{m\times1}
+$$
 
-$$\mathbf{A} = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$$
+The multiplication is valid because the inner dimensions match:
 
-* **$\mathbf{x}$ (Unknown Vector):** The state variables we aim to solve for:
+$$(m\times n)(n\times1) = (m\times1)$$
 
-$$\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$$
+A column vector with $n$ components is written as
 
-* **$\mathbf{b}$ (Constant Vector):** The boundary conditions or net external outputs:
+$$\mathbf{x}_{n\times1}=
+\begin{bmatrix}
+x_1 \\
+x_2 \\
+\vdots \\
+x_n
+\end{bmatrix}
+$$
 
-$$\mathbf{b} = \begin{bmatrix} b_1 \\ b_2 \end{bmatrix}$$
+A row vector is the transpose of a column vector and has dimension $1\times n$:
 
+$$\mathbf{x}^{T}_{1\times n}=
+\begin{bmatrix}
+x_1 & x_2 & \cdots & x_n
+\end{bmatrix}
+$$
+
+The matrix multiplication rule is based on row-column multiplication:
+
+$$
+b_i = \sum_{j=1}^{n} a_{ij}x_j
+$$
+
+This means that each output component $b_i$ is calculated by taking the dot product between row $i$ of matrix $\mathbf{A}$ and the column vector $\mathbf{x}$.
 
 ---
 
-## 2. Spatial Orientation: Row and Column Vectors
+## 3. Analytical Methods for Solving a Square Linear System
 
-In continuum mechanics, physical quantities exist in physical space, requiring strict definitions of vector orientations during matrix multiplications ($\mathbf{A}\mathbf{x}$):
+If the coefficient matrix is square and non-singular, then the system has a unique solution.
 
-* **Column Vectors ($n \times 1$):** Represent positions, forces, tractions, or directional normals. By default, vectors are assumed to be column vectors:
+For a square system,
 
-$$\mathbf{x} = \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}$$
+$$
+\mathbf{A}_{n\times n}\mathbf{x}_{n\times1}
+=
+\mathbf{b}_{n\times1}
+$$
 
-* **Row Vectors ($1 \times n$):** Represent coordinates projected onto an axis or linear transformations. A row vector is mathematically defined as the transpose ($T$) of a column vector:
+If
 
-$$\mathbf{x}^T = \begin{bmatrix} x_1 & x_2 \end{bmatrix}$$
+$$
+\det(\mathbf{A}) \neq 0
+$$
 
+then the inverse matrix exists, and the solution is
 
-### Matrix Multiplication Rule
-When computing $\mathbf{A}\mathbf{x} = \mathbf{b}$, each element of row $i$ in matrix $\mathbf{A}$ undergoes a dot product with the column vector $\mathbf{x}$:
-
-$$b_i = \sum_{j=1}^{n} a_{ij}x_j$$
-
+$$
+\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}
+$$
 
 ---
 
-## 3. Analytical Methods for Solving $\mathbf{A}\mathbf{x} = \mathbf{b}$
+### 3.1 Matrix Inverse for a 2 × 2 Matrix
 
-If the coefficient matrix $\mathbf{A}$ is non-singular—meaning its determinant is non-zero ($\det(\mathbf{A}) \neq 0$)—the system has a unique solution. Three classic methods are used to solve it:
+For a $2 \times 2$ matrix,
 
-### Method A: Matrix Inverse ($\mathbf{A}^{-1}$)
-We isolate the unknown vector $\mathbf{x}$ by multiplying both sides from the left by the inverse matrix $\mathbf{A}^{-1}$, where $\mathbf{A}^{-1}\mathbf{A} = \mathbf{I}$ (the identity matrix):
+$$
+\mathbf{A}_{2\times2}
+=
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22}
+\end{bmatrix}
+$$
 
-$$\mathbf{x} = \mathbf{A}^{-1}\mathbf{b}$$
+the determinant is
 
+$$
+\det(\mathbf{A})
+=
+a_{11}a_{22} - a_{12}a_{21}
+$$
 
-For a $2 \times 2$ matrix, the inverse is explicitly defined as:
+If the determinant is not zero, the inverse is
 
-$$\mathbf{A}^{-1} = \frac{1}{a_{11}a_{22} - a_{12}a_{21}} \begin{bmatrix} a_{22} & -a_{12} \\ -a_{21} & a_{11} \end{bmatrix}$$
+$$
+\mathbf{A}^{-1}
+=
+\frac{1}{a_{11}a_{22}-a_{12}a_{21}}
+\begin{bmatrix}
+a_{22} & -a_{12} \\
+-a_{21} & a_{11}
+\end{bmatrix}
+$$
 
+The solution is then
 
-### Method B: Gauss-Jordan Elimination
-This row-reduction method transforms an **augmented matrix** $[\mathbf{A} \mid \mathbf{b}]$ into its Reduced Row Echelon Form (RREF) using three elementary row operations: scaling a row, swapping rows, or adding/subtracting a scalar multiple of one row to another.
+$$
+\mathbf{x}_{2\times1}
+=
+\mathbf{A}^{-1}_{2\times2}
+\mathbf{b}_{2\times1}
+$$
 
-$$\begin{bmatrix} a_{11} & a_{12} & \big| & b_1 \\ a_{21} & a_{22} & \big| & b_2 \end{bmatrix} \xrightarrow{\text{Row Operations}} \begin{bmatrix} 1 & 0 & \big| & x_1 \\ 0 & 1 & \big| & x_2 \end{bmatrix}$$
+Dimension check:
 
+$$
+(2\times2)(2\times1) = (2\times1)
+$$
 
-### Method C: Cramer's Rule
-Cramer's Rule solves each unknown variable independently using determinants without computing full matrix row reductions:
+---
 
-$$x_i = \frac{\det(\mathbf{A}_i)}{\det(\mathbf{A})}$$
+### 3.2 Gauss-Jordan Elimination
 
+Gauss-Jordan elimination solves a system by transforming the augmented matrix into reduced row echelon form.
 
-Where $\mathbf{A}_i$ is the matrix formed by replacing the $i$-th column of $\mathbf{A}$ with the constant column vector $\mathbf{b}$.
+For a two-variable system, the augmented matrix is
+
+$$
+\left[
+\begin{array}{cc|c}
+a_{11} & a_{12} & b_1 \\
+a_{21} & a_{22} & b_2
+\end{array}
+\right]
+$$
+
+After row operations, the matrix becomes
+
+$$
+\left[
+\begin{array}{cc|c}
+1 & 0 & x_1 \\
+0 & 1 & x_2
+\end{array}
+\right]
+$$
+
+The row operations include:
+
+- Swapping rows
+- Multiplying a row by a non-zero scalar
+- Adding or subtracting a multiple of one row from another row
+
+---
+
+### 3.3 Cramer's Rule
+
+Cramer's Rule solves each unknown variable using determinants.
+
+For a square matrix system,
+
+$$
+\mathbf{A}\mathbf{x} = \mathbf{b}
+$$
+
+the $i$-th unknown is
+
+$$
+x_i = \frac{\det(\mathbf{A}_i)}{\det(\mathbf{A})}
+$$
+
+where $\mathbf{A}_i$ is formed by replacing the $i$-th column of $\mathbf{A}$ with the vector $\mathbf{b}$.
+
+For a two-variable system:
+
+$$
+x_1 = \frac{\det(\mathbf{A}_1)}{\det(\mathbf{A})}
+$$
+
+$$
+x_2 = \frac{\det(\mathbf{A}_2)}{\det(\mathbf{A})}
+$$
+
+Cramer's Rule is valid only when
+
+$$
+\det(\mathbf{A}) \neq 0
+$$
 
 ---
 
 ## 4. Engineering Application: 2D Stress Tensor Analysis
 
-Let us apply this exact mathematical framework to calculate internal stresses. Consider a structural element under a plane stress condition where:
-* $\sigma_{xx} = 80 \text{ MPa}$ (Normal tensile stress along the x-axis)
-* $\sigma_{yy} = 20 \text{ MPa}$ (Normal tensile stress along the y-axis)
-* $\tau_{xy} = \tau_{yx} = 30 \text{ MPa}$ (Internal shear stress)
+In solid mechanics, stress at a point can be represented using a stress tensor.
 
-This state is organized into a symmetric **2D Stress Tensor** ($\boldsymbol{\sigma}$):
+For a 2D plane stress state, the stress tensor has dimension $2\times2$:
 
-$$\boldsymbol{\sigma} = \begin{bmatrix} 80 & 30 \\ 30 & 20 \end{bmatrix}$$
+$$
+\boldsymbol{\sigma}_{2\times2}
+=
+\begin{bmatrix}
+\sigma_{xx} & \tau_{xy} \\
+\tau_{yx} & \sigma_{yy}
+\end{bmatrix}
+$$
 
+Consider a structural element under plane stress with:
 
-### Problem Statement
-Using **Cauchy’s Stress Formula**, the traction vector $\mathbf{T}$ acting on a plane is the product of the stress tensor and the plane's unit normal vector $\mathbf{n}$:
+- $\sigma_{xx} = 80 \ \text{MPa}$
+- $\sigma_{yy} = 20 \ \text{MPa}$
+- $\tau_{xy} = \tau_{yx} = 30 \ \text{MPa}$
 
-$$\boldsymbol{\sigma}\mathbf{n} = \mathbf{T}$$
+The stress tensor is
 
-
-If a monitored plane experiences a known internal traction vector $\mathbf{T} = \begin{bmatrix} 70 \\ 40 \end{bmatrix} \text{ MPa}$, what is the orientation of the plane normal $\mathbf{n} = \begin{bmatrix} n_x \\ n_y \end{bmatrix}$?
-
-This yields the linear matrix system:
-
-$$\begin{bmatrix} 80 & 30 \\ 30 & 20 \end{bmatrix} \begin{bmatrix} n_x \\ n_y \end{bmatrix} = \begin{bmatrix} 70 \\ 40 \end{bmatrix}$$
-
-
----
-
-### Step-by-Step Solution 1: Gauss-Jordan Elimination
-
-1. **Construct the augmented matrix:**
-
-$$\begin{bmatrix} 80 & 30 & \big| & 70 \\ 30 & 20 & \big| & 40 \end{bmatrix}$$
-
-
-2. **Normalize Row 1 ($R_1 \leftarrow R_1 / 80$):**
-
-$$\begin{bmatrix} 1 & 0.375 & \big| & 0.875 \\ 30 & 20 & \big| & 40 \end{bmatrix}$$
-
-
-3. **Eliminate the x-coefficient from Row 2 ($R_2 \leftarrow R_2 - 30R_1$):**
-
-$$20 - 30(0.375) = 20 - 11.25 = 8.75$$
-
-$$40 - 30(0.875) = 40 - 26.25 = 13.75$$
-
-$$\begin{bmatrix} 1 & 0.375 & \big| & 0.875 \\ 0 & 8.75 & \big| & 13.75 \end{bmatrix}$$
-
-
-4. **Isolate the y-coefficient in Row 2 ($R_2 \leftarrow R_2 / 8.75$):**
-
-$$n_y = \frac{13.75}{8.75} = \frac{55}{35} = \frac{11}{7} \approx 1.5714$$
-
-$$\begin{bmatrix} 1 & 0.375 & \big| & 0.875 \\ 0 & 1 & \big| & \frac{11}{7} \end{bmatrix}$$
-
-
-5. **Eliminate the y-coefficient from Row 1 ($R_1 \leftarrow R_1 - 0.375R_2$):**
-
-$$0.875 - 0.375\left(\frac{11}{7}\right) = \frac{7}{8} - \frac{3}{8}\left(\frac{11}{7}\right) = \frac{49 - 33}{56} = \frac{16}{56} = \frac{2}{7} \approx 0.2857$$
-
-$$\begin{bmatrix} 1 & 0 & \big| & \frac{2}{7} \\ 0 & 1 & \big| & \frac{11}{7} \end{bmatrix}$$
-
-
-**Result via Gauss-Jordan:** $$\mathbf{n} = \begin{bmatrix} \frac{2}{7} \\ \frac{11}{7} \end{bmatrix} \approx \begin{bmatrix} 0.2857 \\ 1.5714 \end{bmatrix}$$
-
+$$
+\boldsymbol{\sigma}_{2\times2}
+=
+\begin{bmatrix}
+80 & 30 \\
+30 & 20
+\end{bmatrix}
+$$
 
 ---
 
-### Step-by-Step Solution 2: Cramer's Rule
+### 4.1 Cauchy's Stress Formula
 
-1. **Compute the Principal Determinant ($D = \det(\boldsymbol{\sigma})$):**
+Using Cauchy's stress formula, the traction vector $\mathbf{T}$ acting on a plane is
 
-$$D = (80 \times 20) - (30 \times 30) = 1600 - 900 = 700$$
+$$
+\boldsymbol{\sigma}\mathbf{n} = \mathbf{T}
+$$
 
+For the 2D case, the dimension is
 
-2. **Compute $D_1$ (Replace Column 1 with $\mathbf{T}$):**
+$$
+\boldsymbol{\sigma}_{2\times2}
+\mathbf{n}_{2\times1}
+=
+\mathbf{T}_{2\times1}
+$$
 
-$$\mathbf{A}_1 = \begin{bmatrix} 70 & 30 \\ 40 & 20 \end{bmatrix} \implies D_1 = (70 \times 20) - (30 \times 40) = 1400 - 1200 = 200$$
+Let the traction vector be
 
+$$
+\mathbf{T}_{2\times1}
+=
+\begin{bmatrix}
+70 \\
+40
+\end{bmatrix}
+\ \text{MPa}
+$$
 
-3. **Compute $D_2$ (Replace Column 2 with $\mathbf{T}$):**
+and the normal direction vector be
 
-$$\mathbf{A}_2 = \begin{bmatrix} 80 & 70 \\ 30 & 40 \end{bmatrix} \implies D_2 = (80 \times 40) - (70 \times 30) = 3200 - 2100 = 1100$$
+$$
+\mathbf{n}_{2\times1}
+=
+\begin{bmatrix}
+n_x \\
+n_y
+\end{bmatrix}
+$$
 
+The matrix system becomes
 
-4. **Calculate Final Vector Components:**
+$$
+\begin{bmatrix}
+80 & 30 \\
+30 & 20
+\end{bmatrix}
+\begin{bmatrix}
+n_x \\
+n_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+70 \\
+40
+\end{bmatrix}
+$$
 
-$$n_x = \frac{D_1}{D} = \frac{200}{700} = \frac{2}{7}$$
+Dimension check:
 
-$$n_y = \frac{D_2}{D} = \frac{1100}{700} = \frac{11}{7}$$
-
-
-Both mathematical strategies yield identical coordinates for the structural vector plane!
+$$
+(2\times2)(2\times1) = (2\times1)
+$$
 
 ---
 
-## 6. 3D Fluid Stress Tensor Analysis
+### 4.2 Solution by Gauss-Jordan Elimination
 
-In fluid mechanics, the state of mechanical stress at an internal point is fully defined by a 3D $3 \times 3$ Cauchy stress tensor matrix ($\boldsymbol{\sigma}$). Computing the determinant of this matrix provides critical insights into the volumetric and structural energy behavior of the fluid element.
+Construct the augmented matrix:
 
-### Student Exercise: Populate the Tensor Matrix
-Students must map given physical normal stresses ($\sigma$) and shear stresses ($\tau$) into the standard 3D tensor format:
+$$
+\left[
+\begin{array}{cc|c}
+80 & 30 & 70 \\
+30 & 20 & 40
+\end{array}
+\right]
+$$
 
-$$\boldsymbol{\sigma} = \begin{bmatrix}
+Normalize Row 1:
 
+$$
+R_1 \leftarrow \frac{R_1}{80}
+$$
+
+$$
+\left[
+\begin{array}{cc|c}
+1 & 0.375 & 0.875 \\
+30 & 20 & 40
+\end{array}
+\right]
+$$
+
+Eliminate the first coefficient in Row 2:
+
+$$
+R_2 \leftarrow R_2 - 30R_1
+$$
+
+$$
+20 - 30(0.375) = 8.75
+$$
+
+$$
+40 - 30(0.875) = 13.75
+$$
+
+Thus,
+
+$$
+\left[
+\begin{array}{cc|c}
+1 & 0.375 & 0.875 \\
+0 & 8.75 & 13.75
+\end{array}
+\right]
+$$
+
+Normalize Row 2:
+
+$$
+R_2 \leftarrow \frac{R_2}{8.75}
+$$
+
+$$
+n_y = \frac{13.75}{8.75} = \frac{11}{7}
+$$
+
+$$
+\left[
+\begin{array}{cc|c}
+1 & 0.375 & 0.875 \\
+0 & 1 & \frac{11}{7}
+\end{array}
+\right]
+$$
+
+Eliminate the second coefficient in Row 1:
+
+$$
+R_1 \leftarrow R_1 - 0.375R_2
+$$
+
+$$
+0.875 - 0.375\left(\frac{11}{7}\right)
+=
+\frac{2}{7}
+$$
+
+Therefore,
+
+$$
+\left[
+\begin{array}{cc|c}
+1 & 0 & \frac{2}{7} \\
+0 & 1 & \frac{11}{7}
+\end{array}
+\right]
+$$
+
+The solution is
+
+$$
+\mathbf{n}
+=
+\begin{bmatrix}
+\frac{2}{7} \\
+\frac{11}{7}
+\end{bmatrix}
+$$
+
+or approximately,
+
+$$
+\mathbf{n}
+\approx
+\begin{bmatrix}
+0.2857 \\
+1.5714
+\end{bmatrix}
+$$
+
+---
+
+### 4.3 Solution by Cramer's Rule
+
+The determinant of the stress matrix is
+
+$$
+D
+=
+\det
+\begin{bmatrix}
+80 & 30 \\
+30 & 20
+\end{bmatrix}
+$$
+
+$$
+D = (80)(20) - (30)(30)
+$$
+
+$$
+D = 1600 - 900 = 700
+$$
+
+Replace the first column with $\mathbf{T}$:
+
+$$
+\mathbf{A}_1
+=
+\begin{bmatrix}
+70 & 30 \\
+40 & 20
+\end{bmatrix}
+$$
+
+$$
+D_1 = (70)(20) - (30)(40)
+$$
+
+$$
+D_1 = 1400 - 1200 = 200
+$$
+
+Thus,
+
+$$
+n_x = \frac{D_1}{D}
+=
+\frac{200}{700}
+=
+\frac{2}{7}
+$$
+
+Replace the second column with $\mathbf{T}$:
+
+$$
+\mathbf{A}_2
+=
+\begin{bmatrix}
+80 & 70 \\
+30 & 40
+\end{bmatrix}
+$$
+
+$$
+D_2 = (80)(40) - (70)(30)
+$$
+
+$$
+D_2 = 3200 - 2100 = 1100
+$$
+
+Thus,
+
+$$
+n_y = \frac{D_2}{D}
+=
+\frac{1100}{700}
+=
+\frac{11}{7}
+$$
+
+The final result is
+
+$$
+\mathbf{n}
+=
+\begin{bmatrix}
+\frac{2}{7} \\
+\frac{11}{7}
+\end{bmatrix}
+$$
+
+---
+
+### 4.4 Important Physical Note
+
+Although the vector is written as $\mathbf{n}$, the result is not a unit normal vector because its magnitude is not equal to 1.
+
+The magnitude is
+
+$$
+|\mathbf{n}|
+=
+\sqrt{
+\left(\frac{2}{7}\right)^2
++
+\left(\frac{11}{7}\right)^2
+}
+$$
+
+$$
+|\mathbf{n}|
+=
+\sqrt{\frac{4}{49}+\frac{121}{49}}
+=
+\sqrt{\frac{125}{49}}
+=
+\frac{\sqrt{125}}{7}
+$$
+
+Since
+
+$$
+|\mathbf{n}| \neq 1
+$$
+
+this vector should be interpreted as a direction vector associated with the given traction condition, not a true unit normal vector.
+
+If a true unit normal is required, the vector must be normalized:
+
+$$
+\hat{\mathbf{n}}
+=
+\frac{\mathbf{n}}{|\mathbf{n}|}
+$$
+
+---
+
+## 5. Three-Dimensional Fluid Stress Tensor Analysis
+
+In fluid mechanics, the complete stress state at a point in 3D space is represented by a $3\times3$ Cauchy stress tensor.
+
+The general 3D stress tensor is
+
+$$
+\boldsymbol{\sigma}_{3\times3}
+=
+\begin{bmatrix}
 \sigma_{xx} & \tau_{xy} & \tau_{xz} \\
 \tau_{yx} & \sigma_{yy} & \tau_{yz} \\
 \tau_{zx} & \tau_{zy} & \sigma_{zz}
+\end{bmatrix}
+$$
 
-\end{bmatrix}$$
+The determinant is computed from the full $3\times3$ matrix:
 
+$$
+\det(\boldsymbol{\sigma}_{3\times3})
+$$
 
-Below are three distinct scenarios demonstrating how changing values alter the mathematical determinant and reveal different physical behaviors.
+The determinant gives information about whether the stress state is invertible and how stress acts volumetrically in three-dimensional space.
 
 ---
 
-### Case A: Negative Determinant ($\det(\boldsymbol{\sigma}) < 0$) — High Viscous Compression
+### 5.1 Case A: Negative Determinant — High Viscous Compression
 
-#### Scenario Setup
-A fluid element inside a high-pressure vortex pump experiences these forces:
-* **Normal stresses:** $\sigma_{xx} = -50 \text{ kPa}$, $\sigma_{yy} = -50 \text{ kPa}$, $\sigma_{zz} = -30 \text{ kPa}$
-* **Shear stresses:** $\tau_{xy} = \tau_{yx} = 10 \text{ kPa}$, all other shear terms are $0$.
+A fluid element inside a high-pressure vortex pump experiences:
 
-$$\boldsymbol{\sigma}_A = \begin{bmatrix}
+- $\sigma_{xx} = -50 \ \text{kPa}$
+- $\sigma_{yy} = -50 \ \text{kPa}$
+- $\sigma_{zz} = -30 \ \text{kPa}$
+- $\tau_{xy} = \tau_{yx} = 10 \ \text{kPa}$
+- All other shear terms are zero.
 
+The stress tensor is
+
+$$
+\boldsymbol{\sigma}_A
+=
+\begin{bmatrix}
 -50 & 10 & 0 \\
 10 & -50 & 0 \\
 0 & 0 & -30
+\end{bmatrix}
+$$
 
-\end{bmatrix}$$
+This is a $3\times3$ matrix.
 
-
-#### Determinant Calculation
 Expanding along the third row:
 
-$$\det(\boldsymbol{\sigma}_A) = -30 \cdot \det\begin{bmatrix} -50 & 10 \\ 10 & -50 \end{bmatrix}$$
+$$
+\det(\boldsymbol{\sigma}_A)
+=
+-30
+\det
+\begin{bmatrix}
+-50 & 10 \\
+10 & -50
+\end{bmatrix}
+$$
 
-$$\det(\boldsymbol{\sigma}_A) = -30 \cdot \left[ (-50 \times -50) - (10 \times 10) \right]$$
+$$
+\det(\boldsymbol{\sigma}_A)
+=
+-30
+\left[
+(-50)(-50) - (10)(10)
+\right]
+$$
 
-$$\det(\boldsymbol{\sigma}_A) = -30 \cdot [2500 - 100] = -30 \cdot [2400] = -72,000$$
+$$
+\det(\boldsymbol{\sigma}_A)
+=
+-30(2500 - 100)
+$$
 
+$$
+\det(\boldsymbol{\sigma}_A)
+=
+-30(2400)
+=
+-72000
+$$
 
-#### Physical Interpretation
-* **The Meaning:** A large negative determinant indicates that **compressive forces heavily dominate** the spatial volume.
-* **Flow State:** Because the shear terms ($10 \text{ kPa}$) are present alongside compression, the fluid layers are actively sliding past each other (viscous shear flow) while being tightly crushed.
+The determinant is negative:
+
+$$
+\det(\boldsymbol{\sigma}_A) < 0
+$$
+
+A large negative determinant indicates that compressive stresses dominate the fluid element.
 
 ---
 
-### Case B: Zero Determinant ($\det(\boldsymbol{\sigma}) = 0$) — Unconfined State / Pure Shear Flow
+### 5.2 Case B: Zero Determinant — Unconfined Stress State
 
-#### Scenario Setup
-A fluid element traveling near a smooth boundary layer experiences no compression along its primary flow axis, but feels high dragging shear:
-* **Normal stresses:** $\sigma_{xx} = 0 \text{ kPa}$, $\sigma_{yy} = -40 \text{ kPa}$, $\sigma_{zz} = 0 \text{ kPa}$
-* **Shear stresses:** $\tau_{xy} = \tau_{yx} = 40 \text{ kPa}$, all other shear terms are $0$.
+A fluid element near a boundary layer experiences:
 
-$$\boldsymbol{\sigma}_B = \begin{bmatrix}
+- $\sigma_{xx} = 0 \ \text{kPa}$
+- $\sigma_{yy} = -40 \ \text{kPa}$
+- $\sigma_{zz} = 0 \ \text{kPa}$
+- $\tau_{xy} = \tau_{yx} = 40 \ \text{kPa}$
+- All other shear terms are zero.
 
+The stress tensor is
+
+$$
+\boldsymbol{\sigma}_B
+=
+\begin{bmatrix}
 0 & 40 & 0 \\
 40 & -40 & 0 \\
 0 & 0 & 0
+\end{bmatrix}
+$$
 
-\end{bmatrix}$$
+Because the third row contains only zeros, the determinant is
 
+$$
+\det(\boldsymbol{\sigma}_B) = 0
+$$
 
-#### Determinant Calculation
-Expanding along the third row (where all terms are zero):
+This means the matrix is singular and non-invertible.
 
-$$\det(\boldsymbol{\sigma}_B) = 0$$
-
-
-#### Physical Interpretation
-* **The Meaning:** A determinant of exactly zero means the matrix is **singular and non-invertible**.
-* **Flow State:** Physically, this indicates an unconfined stress state in at least one spatial direction (here, the z-axis has completely relaxed). The normal compression on the y-face is perfectly countered by the sliding shear energy, meaning the fluid element can deform infinitely along a specific plane without any resisting internal pressure.
+Physically, this indicates that the stress state is unconfined in at least one spatial direction. In this case, the $z$-direction does not carry stress resistance.
 
 ---
 
-### Case C: Positive Determinant ($\det(\boldsymbol{\sigma}) > 0$) — Internal Cavitation / Tensile Stress
+### 5.3 Case C: Positive Determinant — Tensile Expansion State
 
-#### Scenario Setup
-A fluid element passes through a rapid pipe expansion zone or near a spinning propeller, inducing localized negative pressure (tension):
-* **Normal stresses:** $\sigma_{xx} = 20 \text{ kPa}$, $\sigma_{yy} = 20 \text{ kPa}$, $\sigma_{zz} = -10 \text{ kPa}$
-* **Shear stresses:** $\tau_{xy} = \tau_{yx} = 5 \text{ kPa}$, all other shear terms are $0$.
+To demonstrate a positive determinant, consider a fluid element with tensile normal stresses:
 
-$$\boldsymbol{\sigma}_C = \begin{bmatrix}
+- $\sigma_{xx} = 20 \ \text{kPa}$
+- $\sigma_{yy} = 20 \ \text{kPa}$
+- $\sigma_{zz} = 10 \ \text{kPa}$
+- $\tau_{xy} = \tau_{yx} = 5 \ \text{kPa}$
+- All other shear terms are zero.
 
-20 & 5 & 0 \\
-5 & 20 & 0 \\
-0 & 0 & -10
+The stress tensor is
 
-\end{bmatrix}$$
-
-
-#### Determinant Calculation
-Expanding along the third row:
-
-$$\det(\boldsymbol{\sigma}_C) = -10 \cdot \det\begin{bmatrix} 20 & 5 \\ 5 & 20 \end{bmatrix}$$
-
-$$\det(\boldsymbol{\sigma}_C) = -10 \cdot \left[ (20 \times 20) - (5 \times 5) \right]$$
-
-$$\det(\boldsymbol{\sigma}_C) = -10 \cdot [400 - 25] = -10 \cdot [375] = -3,750$$
-
-
-*(Note: To make the overall determinant strictly positive in 3D space, let us look at an explosive expanding system where all axes experience tension)*:
-* **Revised Normal stresses:** $\sigma_{xx} = 20 \text{ kPa}$, $\sigma_{yy} = 20 \text{ kPa}$, $\sigma_{zz} = +10 \text{ kPa}$
-
-$$\boldsymbol{\sigma}_{C2} = \begin{bmatrix}
-
+$$
+\boldsymbol{\sigma}_C
+=
+\begin{bmatrix}
 20 & 5 & 0 \\
 5 & 20 & 0 \\
 0 & 0 & 10
+\end{bmatrix}
+$$
 
-\end{bmatrix}$$
+Expanding along the third row:
 
-$$\det(\boldsymbol{\sigma}_{C2}) = 10 \cdot [400 - 25] = +3,750$$
+$$
+\det(\boldsymbol{\sigma}_C)
+=
+10
+\det
+\begin{bmatrix}
+20 & 5 \\
+5 & 20
+\end{bmatrix}
+$$
 
+$$
+\det(\boldsymbol{\sigma}_C)
+=
+10
+\left[
+(20)(20) - (5)(5)
+\right]
+$$
 
-#### Physical Interpretation
-* **The Meaning:** A positive determinant driven by positive normal values indicates **volumetric expansion or pulling tension**.
-* **Flow State:** Liquids cannot support sustained tension. When the stress matrix exhibits a positive internal profile like this, it indicates the fluid is tearing apart, leading directly to **cavitation**—the formation of vapor bubbles that can violently collapse and erode nearby engineering equipment.
+$$
+\det(\boldsymbol{\sigma}_C)
+=
+10(400 - 25)
+$$
+
+$$
+\det(\boldsymbol{\sigma}_C)
+=
+10(375)
+=
+3750
+$$
+
+Therefore,
+
+$$
+\det(\boldsymbol{\sigma}_C) > 0
+$$
+
+A positive determinant in this example is associated with an expansive or tensile stress state.
+
+In liquids, sustained tensile stress may be related to cavitation, where vapor bubbles form because the fluid cannot support large tensile loading.
 
 ---
 
-## 7. Eigenvalues and Eigenvectors in Continuum Mechanics
+## 6. Eigenvalues and Eigenvectors in Continuum Mechanics
 
-When analyzing a stress matrix, a fundamental design question arises: **Is there an operational orientation where all shear (sliding) stresses disappear, leaving only pure tension or compression?**
+For a stress tensor, the eigenvalue problem is
 
-Mathematically, this is expressed as an **Eigenvalue Problem**:
+$$
+\boldsymbol{\sigma}\mathbf{v}
+=
+\lambda\mathbf{v}
+$$
 
-$$\boldsymbol{\sigma}\mathbf{v} = \lambda\mathbf{v}$$
+For a 2D stress tensor, the dimension is
 
+$$
+\boldsymbol{\sigma}_{2\times2}
+\mathbf{v}_{2\times1}
+=
+\lambda
+\mathbf{v}_{2\times1}
+$$
 
-Where:
-* **Eigenvalues ($\lambda$):** Represent the **Principal Stresses** ($\sigma_1, \sigma_2$). These are the maximum and minimum normal stresses the material experiences at that exact coordinate point.
-* **Eigenvectors ($\mathbf{v}$):** Represent the **Principal Directions** (unit vectors $\mathbf{n}$). These point along the precise spatial axes where shear stresses drop to zero.
+The eigenvalues represent the principal stresses.
 
-To find non-trivial solutions, we solve the characteristic equation:
+The eigenvectors represent the principal directions.
 
-$$\det(\boldsymbol{\sigma} - \lambda\mathbf{I}) = 0$$
+To solve for the eigenvalues, use the characteristic equation:
 
+$$
+\det(\boldsymbol{\sigma} - \lambda\mathbf{I}) = 0
+$$
+
+where $\mathbf{I}$ is the identity matrix.
 
 ---
 
-### Application 1: 2D Fluid Element (Viscous Flow)
-Let's find the principal stresses and directions for a moving fluid element carrying this specific internal profile:
+### 6.1 Application 1: 2D Fluid Element
 
-$$\boldsymbol{\sigma}_{\text{fluid}} = \begin{bmatrix} -40 & 10 \\ 10 & -40 \end{bmatrix}$$
+Consider a 2D fluid stress tensor:
 
+$$
+\boldsymbol{\sigma}_{fluid}
+=
+\begin{bmatrix}
+-40 & 10 \\
+10 & -40
+\end{bmatrix}
+$$
 
-#### Step 1: Set up the Characteristic Equation
+This is a $2\times2$ matrix.
 
-$$\det\begin{bmatrix} -40 - \lambda & 10 \\ 10 & -40 - \lambda \end{bmatrix} = 0$$
+The eigenvalue equation is
 
-$$(-40 - \lambda)^2 - (10 \times 10) = 0$$
+$$
+\det
+\left(
+\boldsymbol{\sigma}_{fluid}
+-
+\lambda\mathbf{I}
+\right)
+=
+0
+$$
 
-$$\lambda^2 + 80\lambda + 1500 = 0$$
+Thus,
 
+$$
+\det
+\begin{bmatrix}
+-40-\lambda & 10 \\
+10 & -40-\lambda
+\end{bmatrix}
+=
+0
+$$
 
-#### Step 2: Solve for Eigenvalues ($\lambda$)
-Factoring the quadratic equation:
+Expanding the determinant:
 
-$$(\lambda + 30)(\lambda + 50) = 0 \implies \lambda_1 = -30 \text{ kPa}, \quad \lambda_2 = -50 \text{ kPa}$$
+$$
+(-40-\lambda)^2 - (10)(10) = 0
+$$
 
+$$
+(-40-\lambda)^2 - 100 = 0
+$$
 
-#### Step 3: Solve for Eigenvectors ($\mathbf{v}$)
+Expanding:
+
+$$
+\lambda^2 + 80\lambda + 1500 = 0
+$$
+
+Factoring:
+
+$$
+(\lambda+30)(\lambda+50)=0
+$$
+
+Therefore,
+
+$$
+\lambda_1 = -30 \ \text{kPa}
+$$
+
+$$
+\lambda_2 = -50 \ \text{kPa}
+$$
+
 For $\lambda_1 = -30$:
 
-$$\begin{bmatrix} -10 & 10 \\ 10 & -10 \end{bmatrix}\begin{bmatrix} v_x \\ v_y \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \implies -10v_x + 10v_y = 0 \implies v_x = v_y$$
+$$
+\boldsymbol{\sigma}_{fluid}
+-
+\lambda_1\mathbf{I}
+=
+\begin{bmatrix}
+-10 & 10 \\
+10 & -10
+\end{bmatrix}
+$$
 
-Normalized to a unit length of $1$:
+Solve:
 
-$$\mathbf{v}_1 = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix} \quad (\text{Direction of minimum compression, rotated at } 45^\circ)$$
+$$
+\begin{bmatrix}
+-10 & 10 \\
+10 & -10
+\end{bmatrix}
+\begin{bmatrix}
+v_x \\
+v_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}
+$$
 
+This gives
 
-#### Physical Interpretation
-* **The Stress Shift:** The original matrix showed equal compression ($-40 \text{ kPa}$) on both the $x$ and $y$ faces, alongside a sliding shear stress of $10 \text{ kPa}$. Finding the eigenvalues reveals that if we rotate our perspective by $45^\circ$, the shear stress vanishes entirely.
-* **Maximum vs. Minimum Pressure:** In this rotated orientation, the fluid element experiences unequal squeezing forces—maximum compression on one axis ($-50 \text{ kPa}$) and minimum compression on the other ($-30 \text{ kPa}$).
-* **Engineering Impact:** This directional difference in pressure is what physically drives fluid deformation and flow. In aerodynamics or hydraulics, identifying these principal orientations helps engineers predict where fluid structures (like boundary layers or wake zones) will experience the highest localized crushing forces.
+$$
+-10v_x + 10v_y = 0
+$$
+
+Therefore,
+
+$$
+v_x = v_y
+$$
+
+The normalized eigenvector is
+
+$$
+\mathbf{v}_1
+=
+\begin{bmatrix}
+\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+$$
+
+This direction is rotated at $45^\circ$.
+
+For $\lambda_2 = -50$, the corresponding eigenvector is
+
+$$
+\mathbf{v}_2
+=
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+$$
+
+This direction is rotated at $135^\circ$.
+
+The eigenvalues show that the fluid element experiences different compression levels along the principal directions.
 
 ---
 
-### Application 2: 2D Solid Element (Structural Beam Under Pure Shear)
-Consider an element on the neutral axis of a structural steel I-beam experiencing pure shear deformation from a heavy vertical load:
+### 6.2 Application 2: 2D Solid Element Under Pure Shear
 
-$$\boldsymbol{\sigma}_{\text{solid}} = \begin{bmatrix} 0 & 60 \\ 60 & 0 \end{bmatrix}$$
+Consider a structural element under pure shear:
 
+$$
+\boldsymbol{\sigma}_{solid}
+=
+\begin{bmatrix}
+0 & 60 \\
+60 & 0
+\end{bmatrix}
+$$
 
-#### Step 1: Set up the Characteristic Equation
+This is a $2\times2$ stress tensor.
 
-$$\det\begin{bmatrix} 0 - \lambda & 60 \\ 60 & 0 - \lambda \end{bmatrix} = 0$$
+The characteristic equation is
 
-$$\lambda^2 - 3600 = 0 \implies \lambda^2 = 3600$$
+$$
+\det
+\begin{bmatrix}
+-\lambda & 60 \\
+60 & -\lambda
+\end{bmatrix}
+=
+0
+$$
 
+Expanding:
 
-#### Step 2: Solve for Eigenvalues ($\lambda$)
+$$
+\lambda^2 - 3600 = 0
+$$
 
-$$\lambda_1 = 60 \text{ MPa} \text{ (Max Tension)}, \quad \lambda_2 = -60 \text{ MPa} \text{ (Max Compression)}$$
+Thus,
 
+$$
+\lambda^2 = 3600
+$$
 
-#### Step 3: Solve for Eigenvectors ($\mathbf{v}$)
-For $\lambda_1 = 60$ (Principal Tensile Stress Axis):
+Therefore,
 
-$$\begin{bmatrix} -60 & 60 \\ 60 & -60 \end{bmatrix}\begin{bmatrix} v_x \\ v_y \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \implies v_x = v_y \implies \mathbf{v}_1 = \begin{bmatrix} \frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix} \quad (\text{Tensile plane at } 45^\circ)$$
+$$
+\lambda_1 = 60 \ \text{MPa}
+$$
 
+$$
+\lambda_2 = -60 \ \text{MPa}
+$$
 
-For $\lambda_2 = -60$ (Principal Compressive Stress Axis):
+For $\lambda_1 = 60$:
 
-$$\begin{bmatrix} 60 & 60 \\ 60 & 60 \end{bmatrix}\begin{bmatrix} v_x \\ v_y \end{bmatrix} = \begin{bmatrix} 0 \\ 0 \end{bmatrix} \implies v_x = -v_y \implies \mathbf{v}_2 = \begin{bmatrix} -\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}} \end{bmatrix} \quad (\text{Compressive plane at } 135^\circ)$$
+$$
+\begin{bmatrix}
+-60 & 60 \\
+60 & -60
+\end{bmatrix}
+\begin{bmatrix}
+v_x \\
+v_y
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+0
+\end{bmatrix}
+$$
 
+This gives
 
-### Physical Conclusion
-This result beautifully captures the mechanics of **pure shear**: applying a sliding shear force ($\tau = 60\text{ MPa}$) to a solid element internally creates equal tensile and compressive normal stresses acting along planes rotated exactly at $45^\circ$ and $135^\circ$. This explains why brittle materials like concrete or chalk snap cleanly at a sharp $45^\circ$ angle when twisted!
+$$
+v_x = v_y
+$$
 
+The normalized eigenvector is
 
-## 8. Applied Engineering Dynamics & Robotics Problems ($2 \times 2$ Systems)
+$$
+\mathbf{v}_1
+=
+\begin{bmatrix}
+\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+$$
 
-This section bridges pure matrix algebra with real-world mechanical design and physical systems. For each engineering application, you will follow a strict, systematic workflow:
-1. **Derive the Governing Physical Equations**
-2. **Construct the Matrix State Form** ($\mathbf{A}\mathbf{x} = \mathbf{b}$ or $\dot{\mathbf{x}} = \mathbf{A}\mathbf{x}$)
-3. **Compute the Determinant & Extract its Physical Meaning**
-4. **Apply Cramer's Rule** to isolate specific operational parameters
-5. **Calculate the System Eigenvalues & Eigenvectors**
-6. **Formulate a Physical Interpretation Conclusion**
+For $\lambda_2 = -60$:
+
+$$
+v_x = -v_y
+$$
+
+The normalized eigenvector is
+
+$$
+\mathbf{v}_2
+=
+\begin{bmatrix}
+-\frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+$$
+
+This result explains a key feature of pure shear: shear stress creates equal tensile and compressive principal stresses acting along planes rotated by $45^\circ$ and $135^\circ$.
 
 ---
 
-### Problem A: Kinematics of a Differential Drive Robot Car
-*This problem references the physical arrangement shown in **below picture**.*
+## 7. Applied Engineering Dynamics and Robotics Problems
+
+This section applies matrix algebra to engineering systems that use $2\times2$ transformation matrices.
+
+The important point is that not every $2\times2$ matrix has the same physical meaning.
+
+- In algebra, $\mathbf{A}$ is a coefficient matrix.
+- In stress analysis, $\boldsymbol{\sigma}$ is a stress tensor.
+- In robotics, $\mathbf{J}$ is a Jacobian matrix.
+- In dynamics, $\mathbf{A}_{state}$ is a state-space system matrix.
+
+---
+
+## 8. Problem A: Differential Drive Robot Car
 
 ![Robot wheel](<https://cdn.discordapp.com/attachments/1521724868738023507/1521739407269429389/image.png?ex=6a45edc3&is=6a449c43&hm=ecddd266c7eb8c47065e67049c7c36a5662909c7ba712ae5fc6094b2145c822e&>)
 
-#### Step 1: Derive the Governing Equations
-From the geometric layout of the two independent wheels in **image_b776e5.png**, the forward linear velocity of the robot base center ($v_B$) is the direct average of the right wheel velocity ($v_R$) and left wheel velocity ($v_L$). The turning angular velocity ($\omega$) is determined by the velocity difference split across the total wheel track width ($s$).
+A differential drive robot uses two independent wheel velocities:
 
-For this design model, we define the physical track width as $s = 0.5 \text{ m}$:
+- $v_R$ = right wheel velocity
+- $v_L$ = left wheel velocity
 
-$$v_B = 0.5v_R + 0.5v_L$$
+The robot motion is described by:
 
-$$\omega = \frac{1}{0.5}v_R - \frac{1}{0.5}v_L \implies \omega = 2v_R - 2v_L$$
+- $v_B$ = forward velocity of the robot body
+- $\omega$ = angular turning velocity
 
+Let the wheel track width be
 
-#### Step 2: Construct the Matrix Form
-We group the target control actions on the left-hand side and the individual wheel input speeds on the right-hand side:
+$$
+s = 0.5 \ \text{m}
+$$
 
-$$\begin{bmatrix} v_B \\ \omega \end{bmatrix} = \begin{bmatrix} 0.5 & 0.5 \\ 2 & -2 \end{bmatrix} \begin{bmatrix} v_R \\ v_L \end{bmatrix}$$
+The forward velocity is
 
+$$
+v_B = 0.5v_R + 0.5v_L
+$$
 
-#### Step 3: Compute the Determinant & Extract its Physical Meaning
+The angular velocity is
 
-$$\det(\mathbf{A}) = (0.5 \times -2) - (0.5 \times 2) = -1 - 1 = -2$$
+$$
+\omega = \frac{1}{s}v_R - \frac{1}{s}v_L
+$$
 
+Since $s = 0.5$,
 
-* **Physical Meaning:** Because $\det(\mathbf{A}) \neq 0$, the transformation matrix is non-singular and fully invertible. This mathematically proves that for any desired spatial trajectory trajectory combination ($v_B, \omega$), there exists exactly one unique, distinct set of wheel motor commands ($v_R, v_L$). The robotic vehicle is guaranteed to be fully controllable.
-
-#### Step 4: Apply Cramer's Rule to Solve for Control Inputs
-The navigation computer demands that the robot execute a precise curve requiring a forward speed of $v_B = 2 \text{ m/s}$ and a turning rate of $\omega = 4 \text{ rad/s}$. Let us isolate the exact individual wheel motor velocities needed:
-
-$$\mathbf{A} = \begin{bmatrix} 0.5 & 0.5 \\ 2 & -2 \end{bmatrix}, \quad \mathbf{b} = \begin{bmatrix} 2 \\ 4 \end{bmatrix}$$
-
-
-* **Solve for Right Wheel Speed ($v_R$):** Replace the first column of $\mathbf{A}$ with the demand vector $\mathbf{b}$:
-
-$$\det(\mathbf{A}_1) = \det\begin{bmatrix} 2 & 0.5 \\ 4 & -2 \end{bmatrix} = (2 \times -2) - (0.5 \times 4) = -4 - 2 = -6$$
-
-$$v_R = \frac{\det(\mathbf{A}_1)}{\det(\mathbf{A})} = \frac{-6}{-2} = 3 \text{ m/s}$$
-
-
-* **Solve for Left Wheel Speed ($v_L$):** Replace the second column of $\mathbf{A}$ with the demand vector $\mathbf{b}$:
-
-$$\det(\mathbf{A}_2) = \det\begin{bmatrix} 0.5 & 2 \\ 2 & 4 \end{bmatrix} = (0.5 \times 4) - (2 \times 2) = 2 - 4 = -2$$
-
-$$v_L = \frac{\det(\mathbf{A}_2)}{\det(\mathbf{A})} = \frac{-2}{-2} = 1 \text{ m/s}$$
-
-
-#### Step 5: Calculate System Eigenvalues & Eigenvectors
-To find the intrinsic steering sensitivity modes of the vehicle chassis, we evaluate the characteristic equation $\det(\mathbf{A} - \lambda\mathbf{I}) = 0$:
-
-$$\det\begin{bmatrix} 0.5 - \lambda & 0.5 \\ 2 & -2 - \lambda \end{bmatrix} = 0$$
-
-$$(0.5 - \lambda)(-2 - \lambda) - (0.5 \times 2) = 0$$
-
-$$\lambda^2 + 1.5\lambda - 2 = 0$$
-
-
-Applying the quadratic formula yields the system eigenvalues:
-
-$$\lambda_1 \approx 0.85, \quad \lambda_2 \approx -2.35$$
-
-
-Substituting these roots back into the shifted system gives the corresponding directional eigenvectors:
-
-$$\mathbf{v}_1 = \begin{bmatrix} 1 \\ 0.7 \end{bmatrix}, \quad \mathbf{v}_2 = \begin{bmatrix} 1 \\ -5.7 \end{bmatrix}$$
-
-
-#### Step 6: Physical Interpretation Conclusion
-The eigenvalues act as dynamic scaling factors for uncoupled motion states. The positive eigenvalue ($\lambda_1 = 0.85$) represents the stable forward translational mode where both lwheels spin in the same direction. The dominant negative eigenvalue ($\lambda_2 = -2.35$) captures the aggressive rotational counter-action when lwheels run opposite to each other. Because $|\lambda_2| > |\lambda_1|$, the vehicle chassis has a much higher sensitivity to differential steering changes than it does to pure translational changes.
+$$
+\omega = 2v_R - 2v_L
+$$
 
 ---
 
-### Problem B: Velocity Jacobian of a Two-Link Robotic Manipulator
-*This problem references the kinematic arm layout shown in **picture below**.*
+### 8.1 Matrix Form
+
+Define the wheel velocity vector as
+
+$$
+\mathbf{u}_{2\times1}
+=
+\begin{bmatrix}
+v_R \\
+v_L
+\end{bmatrix}
+$$
+
+Define the robot motion vector as
+
+$$
+\mathbf{y}_{2\times1}
+=
+\begin{bmatrix}
+v_B \\
+\omega
+\end{bmatrix}
+$$
+
+The transformation is
+
+$$
+\mathbf{y}_{2\times1}
+=
+\mathbf{A}_{robot}
+\mathbf{u}_{2\times1}
+$$
+
+where
+
+$$
+\mathbf{A}_{robot}
+=
+\begin{bmatrix}
+0.5 & 0.5 \\
+2 & -2
+\end{bmatrix}
+$$
+
+Therefore,
+
+$$
+\begin{bmatrix}
+v_B \\
+\omega
+\end{bmatrix}
+=
+\begin{bmatrix}
+0.5 & 0.5 \\
+2 & -2
+\end{bmatrix}
+\begin{bmatrix}
+v_R \\
+v_L
+\end{bmatrix}
+$$
+
+Dimension check:
+
+$$
+(2\times2)(2\times1) = (2\times1)
+$$
+
+---
+
+### 8.2 Determinant and Physical Meaning
+
+The determinant is
+
+$$
+\det(\mathbf{A}_{robot})
+=
+(0.5)(-2) - (0.5)(2)
+$$
+
+$$
+\det(\mathbf{A}_{robot})
+=
+-1 - 1
+=
+-2
+$$
+
+Since
+
+$$
+\det(\mathbf{A}_{robot}) \neq 0
+$$
+
+the transformation is invertible.
+
+This means that for a desired combination of forward speed and turning rate, there is one unique pair of wheel speeds.
+
+---
+
+### 8.3 Cramer's Rule for Wheel Speeds
+
+Suppose the desired robot motion is
+
+$$
+v_B = 2 \ \text{m/s}
+$$
+
+$$
+\omega = 4 \ \text{rad/s}
+$$
+
+Then,
+
+$$
+\mathbf{b}
+=
+\begin{bmatrix}
+2 \\
+4
+\end{bmatrix}
+$$
+
+The system is
+
+$$
+\begin{bmatrix}
+0.5 & 0.5 \\
+2 & -2
+\end{bmatrix}
+\begin{bmatrix}
+v_R \\
+v_L
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 \\
+4
+\end{bmatrix}
+$$
+
+The main determinant is
+
+$$
+D = -2
+$$
+
+Replace the first column:
+
+$$
+\mathbf{A}_1
+=
+\begin{bmatrix}
+2 & 0.5 \\
+4 & -2
+\end{bmatrix}
+$$
+
+$$
+D_1 = (2)(-2) - (0.5)(4)
+$$
+
+$$
+D_1 = -4 - 2 = -6
+$$
+
+Therefore,
+
+$$
+v_R = \frac{D_1}{D}
+=
+\frac{-6}{-2}
+=
+3 \ \text{m/s}
+$$
+
+Replace the second column:
+
+$$
+\mathbf{A}_2
+=
+\begin{bmatrix}
+0.5 & 2 \\
+2 & 4
+\end{bmatrix}
+$$
+
+$$
+D_2 = (0.5)(4) - (2)(2)
+$$
+
+$$
+D_2 = 2 - 4 = -2
+$$
+
+Therefore,
+
+$$
+v_L = \frac{D_2}{D}
+=
+\frac{-2}{-2}
+=
+1 \ \text{m/s}
+$$
+
+The required wheel speeds are
+
+$$
+v_R = 3 \ \text{m/s}
+$$
+
+$$
+v_L = 1 \ \text{m/s}
+$$
+
+---
+
+### 8.4 Eigenvalues and Eigenvectors
+
+The characteristic equation is
+
+$$
+\det(\mathbf{A}_{robot} - \lambda\mathbf{I}) = 0
+$$
+
+Thus,
+
+$$
+\det
+\begin{bmatrix}
+0.5-\lambda & 0.5 \\
+2 & -2-\lambda
+\end{bmatrix}
+=
+0
+$$
+
+Expanding:
+
+$$
+(0.5-\lambda)(-2-\lambda) - (0.5)(2) = 0
+$$
+
+This gives
+
+$$
+\lambda^2 + 1.5\lambda - 2 = 0
+$$
+
+Solving:
+
+$$
+\lambda_1 \approx 0.85
+$$
+
+$$
+\lambda_2 \approx -2.35
+$$
+
+The corresponding approximate eigenvectors are
+
+$$
+\mathbf{v}_1
+\approx
+\begin{bmatrix}
+1 \\
+0.7
+\end{bmatrix}
+$$
+
+$$
+\mathbf{v}_2
+\approx
+\begin{bmatrix}
+1 \\
+-5.7
+\end{bmatrix}
+$$
+
+The positive eigenvalue represents a forward-motion mode where the wheels move in a similar direction.
+
+The negative eigenvalue represents a turning mode where the wheels move in opposite directions.
+
+Because
+
+$$
+|\lambda_2| > |\lambda_1|
+$$
+
+the robot is more sensitive to differential steering than to pure forward translation.
+
+---
+
+## 9. Problem B: Velocity Jacobian of a Two-Link Robotic Manipulator
 
 ![Manipulator](<https://cdn.discordapp.com/attachments/1521724868738023507/1521740132342956092/image.png?ex=6a45ee70&is=6a449cf0&hm=2e40c4821d0e2658a7c7b97eb89717b09222c2e8ec3fcf4c438bbcd97770c0b3&>)
 
-#### Step 1: Derive the Governing Equations
-As illustrated in **image_b78208.png**, a two-joint industrial robotic manipulator maps angular joint motor speeds ($\dot{\theta}_1, \dot{\theta}_2$) to linear tool-tip velocities in Cartesian space ($\dot{x}, \dot{y}$). This mapping matrix is known as the **Kinematic Jacobian ($\mathbf{J}$)**.
+A two-link robotic manipulator maps joint angular velocities into end-effector Cartesian velocities.
 
-At a chosen non-zero configuration layout where the arms are active, the physical joint transmission simplifies to the following system of non-zero parameters:
+The joint velocities are:
 
-$$\dot{x} = 2\dot{\theta}_1 - 2\dot{\theta}_2$$
+- $\dot{\theta}_1$ = base joint angular velocity
+- $\dot{\theta}_2$ = elbow joint angular velocity
 
-$$\dot{y} = 3\dot{\theta}_1 + 1\dot{\theta}_2$$
+The end-effector velocities are:
 
+- $\dot{x}$ = horizontal tool-tip velocity
+- $\dot{y}$ = vertical tool-tip velocity
 
-#### Step 2: Construct the Matrix Form
+The simplified governing equations are
 
-$$\begin{bmatrix} \dot{x} \\ \dot{y} \end{bmatrix} = \begin{bmatrix} 2 & -2 \\ 3 & 1 \end{bmatrix} \begin{bmatrix} \dot{\theta}_1 \\ \dot{\theta}_2 \end{bmatrix}$$
+$$
+\dot{x} = 2\dot{\theta}_1 - 2\dot{\theta}_2
+$$
 
-
-#### Step 3: Compute the Determinant & Extract its Physical Meaning
-
-$$\det(\mathbf{J}) = (2 \times 1) - (-2 \times 3) = 2 + 6 = 8$$
-
-
-* **Physical Meaning:** A positive, non-zero determinant indicates that the robotic arm is safely positioned inside a highly dexterous workspace zone. If $\det(\mathbf{J})$ were to hit $0$, it would indicate a **kinematic singularity** (e.g., the links are locked perfectly straight or fully folded). In a singularity state, the matrix loses rank, and the robot tip freezes, making it impossible to move in specific physical directions.
-
-#### Step 4: Apply Cramer's Rule to Solve for Control Inputs
-To trace an explicit smooth contour, the automation controller requires the end-effector tip to move precisely at $\dot{x} = -4 \text{ m/s}$ and $\dot{y} = 6 \text{ m/s}$. Let us compute the required motor joint speeds:
-
-$$\mathbf{J} = \begin{bmatrix} 2 & -2 \\ 3 & 1 \end{bmatrix}, \quad \mathbf{b} = \begin{bmatrix} -4 \\ 6 \end{bmatrix}$$
-
-
-* **Solve for Base Motor Speed ($\dot{\theta}_1$):**
-
-$$\det(\mathbf{J}_1) = \det\begin{bmatrix} -4 & -2 \\ 6 & 1 \end{bmatrix} = (-4 \times 1) - (-2 \times 6) = -4 + 12 = 8$$
-
-$$\dot{\theta}_1 = \frac{\det(\mathbf{J}_1)}{\det(\mathbf{J})} = \frac{8}{8} = 1 \text{ rad/s}$$
-
-
-* **Solve for Elbow Motor Speed ($\dot{\theta}_2$):**
-
-$$\det(\mathbf{J}_2) = \det\begin{bmatrix} 2 & -4 \\ 3 & 6 \end{bmatrix} = (2 \times 6) - (-4 \times 3) = 12 + 12 = 24$$
-
-$$\dot{\theta}_2 = \frac{\det(\mathbf{J}_2)}{\det(\mathbf{J})} = \frac{24}{8} = 3 \text{ rad/s}$$
-
-
-#### Step 5: Calculate System Eigenvalues & Eigenvectors
-To evaluate the spatial velocity coupling profiles of this arm posture, we track the characteristic roots of the Jacobian matrix:
-
-$$\det(\mathbf{J} - \lambda\mathbf{I}) = 0 \implies \det\begin{bmatrix} 2 - \lambda & -2 \\ 3 & 1 - \lambda \end{bmatrix} = 0$$
-
-$$(2 - \lambda)(1 - \lambda) - (-2 \times 3) = 0$$
-
-$$\lambda^2 - 3\lambda + 8 = 0$$
-
-
-Using the quadratic formula, the resulting eigenvalues are complex conjugates:
-
-$$\lambda = 1.5 \pm 2.39i$$
-
-
-#### Step 6: Physical Interpretation Conclusion
-When the eigenvalues of a kinematic Jacobian are complex numbers, it indicates a highly **coupled, sweeping motion profile**. The real part ($1.5$) represents a scaling velocity expansion outwards from the center. The imaginary part ($2.39$) reveals that raw joint motor speeds naturally manifest at the tool tip as curved, sweeping paths rather than isolated decoupled straight lines along the coordinate axes.
+$$
+\dot{y} = 3\dot{\theta}_1 + \dot{\theta}_2
+$$
 
 ---
 
-### Problem C: State-Space Suspension Dynamics of a Mass-Spring-Damper System
-*This problem references the suspension setup shown in **below picture**.*
+### 9.1 Matrix Form
+
+Define the joint velocity vector:
+
+$$
+\dot{\boldsymbol{\theta}}_{2\times1}
+=
+\begin{bmatrix}
+\dot{\theta}_1 \\
+\dot{\theta}_2
+\end{bmatrix}
+$$
+
+Define the end-effector velocity vector:
+
+$$
+\dot{\mathbf{x}}_{2\times1}
+=
+\begin{bmatrix}
+\dot{x} \\
+\dot{y}
+\end{bmatrix}
+$$
+
+The velocity mapping is
+
+$$
+\dot{\mathbf{x}}_{2\times1}
+=
+\mathbf{J}_{2\times2}
+\dot{\boldsymbol{\theta}}_{2\times1}
+$$
+
+where $\mathbf{J}$ is the Jacobian matrix:
+
+$$
+\mathbf{J}_{2\times2}
+=
+\begin{bmatrix}
+2 & -2 \\
+3 & 1
+\end{bmatrix}
+$$
+
+Therefore,
+
+$$
+\begin{bmatrix}
+\dot{x} \\
+\dot{y}
+\end{bmatrix}
+=
+\begin{bmatrix}
+2 & -2 \\
+3 & 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}_1 \\
+\dot{\theta}_2
+\end{bmatrix}
+$$
+
+Dimension check:
+
+$$
+(2\times2)(2\times1) = (2\times1)
+$$
+
+---
+
+### 9.2 Determinant and Physical Meaning
+
+The determinant of the Jacobian is
+
+$$
+\det(\mathbf{J})
+=
+(2)(1) - (-2)(3)
+$$
+
+$$
+\det(\mathbf{J})
+=
+2 + 6
+=
+8
+$$
+
+Since
+
+$$
+\det(\mathbf{J}) \neq 0
+$$
+
+the robotic arm is not in a singular configuration.
+
+A non-zero Jacobian determinant means the end-effector can move in both Cartesian directions.
+
+If
+
+$$
+\det(\mathbf{J}) = 0
+$$
+
+the manipulator would be in a singular configuration, where motion in some direction becomes impossible or requires extremely large joint speeds.
+
+---
+
+### 9.3 Cramer's Rule for Joint Velocities
+
+Suppose the desired end-effector velocity is
+
+$$
+\dot{x} = -4 \ \text{m/s}
+$$
+
+$$
+\dot{y} = 6 \ \text{m/s}
+$$
+
+The system becomes
+
+$$
+\begin{bmatrix}
+2 & -2 \\
+3 & 1
+\end{bmatrix}
+\begin{bmatrix}
+\dot{\theta}_1 \\
+\dot{\theta}_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+-4 \\
+6
+\end{bmatrix}
+$$
+
+The main determinant is
+
+$$
+D = 8
+$$
+
+Replace the first column:
+
+$$
+\mathbf{J}_1
+=
+\begin{bmatrix}
+-4 & -2 \\
+6 & 1
+\end{bmatrix}
+$$
+
+$$
+D_1 = (-4)(1) - (-2)(6)
+$$
+
+$$
+D_1 = -4 + 12 = 8
+$$
+
+Therefore,
+
+$$
+\dot{\theta}_1
+=
+\frac{D_1}{D}
+=
+\frac{8}{8}
+=
+1 \ \text{rad/s}
+$$
+
+Replace the second column:
+
+$$
+\mathbf{J}_2
+=
+\begin{bmatrix}
+2 & -4 \\
+3 & 6
+\end{bmatrix}
+$$
+
+$$
+D_2 = (2)(6) - (-4)(3)
+$$
+
+$$
+D_2 = 12 + 12 = 24
+$$
+
+Therefore,
+
+$$
+\dot{\theta}_2
+=
+\frac{D_2}{D}
+=
+\frac{24}{8}
+=
+3 \ \text{rad/s}
+$$
+
+The required joint velocities are
+
+$$
+\dot{\theta}_1 = 1 \ \text{rad/s}
+$$
+
+$$
+\dot{\theta}_2 = 3 \ \text{rad/s}
+$$
+
+---
+
+### 9.4 Eigenvalues of the Jacobian
+
+The characteristic equation is
+
+$$
+\det(\mathbf{J} - \lambda\mathbf{I}) = 0
+$$
+
+Thus,
+
+$$
+\det
+\begin{bmatrix}
+2-\lambda & -2 \\
+3 & 1-\lambda
+\end{bmatrix}
+=
+0
+$$
+
+Expanding:
+
+$$
+(2-\lambda)(1-\lambda) - (-2)(3) = 0
+$$
+
+$$
+(2-\lambda)(1-\lambda) + 6 = 0
+$$
+
+This gives
+
+$$
+\lambda^2 - 3\lambda + 8 = 0
+$$
+
+The discriminant is
+
+$$
+\Delta = b^2 - 4ac
+$$
+
+$$
+\Delta = (-3)^2 - 4(1)(8)
+$$
+
+$$
+\Delta = 9 - 32 = -23
+$$
+
+Since the discriminant is negative, the eigenvalues are complex:
+
+$$
+\lambda
+=
+\frac{3 \pm \sqrt{-23}}{2}
+$$
+
+$$
+\lambda
+=
+1.5 \pm 2.397i
+$$
+
+Complex eigenvalues indicate coupled motion between the joint velocity inputs and the Cartesian end-effector velocity outputs.
+
+The real part represents scaling, while the imaginary part represents rotational or sweeping behavior in the velocity mapping.
+
+---
+
+## 10. Problem C: State-Space Suspension Dynamics of a Mass-Spring-Damper System
 
 ![Mass-Spring-Damper Model](<https://cdn.discordapp.com/attachments/1521724868738023507/1521740550217138266/image.png?ex=6a45eed3&is=6a449d53&hm=7edd71fcb0eb23c9e9a98eadfb6ab782e4e67e6485ea5ace4b72fb346fd66cd0&>)
 
+A mass-spring-damper system is governed by Newton's Second Law.
 
-#### Step 1: Derive the Governing Equations
-Looking at the mechanical system in **image_b781e3.png**, a localized machine mass $m_1$ is constrained by an energy-storing mechanical spring with stiffness $k$ and a dissipative damper fluid element with coefficient $c$. Applying Newton's Second Law ($\Sigma F = m_1 a$):
+The equation of motion is
 
-$$m_1 \ddot{x} + c \dot{x} + k x = F(t)$$
+$$
+m\ddot{x} + c\dot{x} + kx = F(t)
+$$
 
+where:
 
-We evaluate a prototype setup where $m_1 = 1 \text{ kg}$, $c = 3 \text{ N}\cdot\text{s/m}$, and $k = 2 \text{ N/m}$:
+- $m$ is the mass.
+- $c$ is the damping coefficient.
+- $k$ is the spring stiffness.
+- $F(t)$ is the external force.
 
-$$\ddot{x} + 3\dot{x} + 2x = F(t) \implies \ddot{x} = -2x - 3\dot{x} + F(t)$$
+Assume:
 
+$$
+m = 1 \ \text{kg}
+$$
 
-To build our matrix system, we convert this single second-order equation into two coupled first-order differential equations by defining state variables for position ($x_1 = x$) and velocity ($x_2 = \dot{x}$):
+$$
+c = 3 \ \text{N}\cdot\text{s/m}
+$$
 
-$$\dot{x}_1 = x_2$$
+$$
+k = 2 \ \text{N/m}
+$$
 
-$$\dot{x}_2 = -2x_1 - 3x_2 + F(t)$$
+The equation becomes
 
+$$
+\ddot{x} + 3\dot{x} + 2x = F(t)
+$$
 
-#### Step 2: Construct the Matrix Form
-Expressing the coupled system in standard State-Space matrix layout ($\dot{\mathbf{x}} = \mathbf{A}\mathbf{x} + \mathbf{B}\mathbf{u}$):
+Solving for acceleration:
 
-$$\begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \end{bmatrix} = \begin{bmatrix} 0 & 1 \\ -2 & -3 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} + \begin{bmatrix} 0 \\ 1 \end{bmatrix} F(t)$$
+$$
+\ddot{x} = -2x - 3\dot{x} + F(t)
+$$
 
+---
 
-#### Step 3: Compute the Determinant & Extract its Physical Meaning
-Let $\mathbf{A}$ represent the system matrix $\begin{bmatrix} 0 & 1 \\ -2 & -3 \end{bmatrix}$:
+### 10.1 Convert to State-Space Form
 
-$$\det(\mathbf{A}) = (0 \times -3) - (1 \times -2) = +2$$
+Define the state variables:
 
+$$
+x_1 = x
+$$
 
-* **Physical Meaning:** In mechanical system state-space models, the system determinant is directly proportional to the stiffness-to-mass ratio ($k/m_1$). Because $\det(\mathbf{A})$ is strictly positive, the spring element is guaranteed to act as a stable restoring force that pulls the mass back toward a central equilibrium rather than expanding away into structural failure.
+$$
+x_2 = \dot{x}
+$$
 
-#### Step 4: Apply Cramer's Rule to Solve for Stationary Equilibrium Position
-A constant step force of $F(t) = 10 \text{ N}$ is continuously applied to the suspended mass. As time approaches infinity, the system settles completely into a stationary equilibrium, meaning all state derivatives drop to zero ($\dot{x}_1 = 0, \dot{x}_2 = 0$). The matrix equation simplifies to:
+Thus,
 
-$$\begin{bmatrix} 0 & 1 \\ -2 & -3 \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} = \begin{bmatrix} 0 \\ -10 \end{bmatrix}$$
+$$
+\dot{x}_1 = x_2
+$$
 
+and
 
-Let us find the final stationary settlement position ($x_1$) using Cramer's rule:
+$$
+\dot{x}_2 = \ddot{x}
+$$
 
-$$\det(\mathbf{A}_1) = \det\begin{bmatrix} 0 & 1 \\ -10 & -3 \end{bmatrix} = (0 \times -3) - (1 \times -10) = 10$$
+Using the equation of motion:
 
-$$x_1 = \frac{\det(\mathbf{A}_1)}{\det(\mathbf{A})} = \frac{10}{2} = 5 \text{ meters}$$
+$$
+\dot{x}_2 = -2x_1 - 3x_2 + F(t)
+$$
 
+The state vector is
 
-#### Step 5: Calculate System Eigenvalues & Eigenvectors
-To discover the transient behavior profile of the suspension, we solve for the system poles via $\det(\mathbf{A} - \lambda\mathbf{I}) = 0$:
+$$
+\mathbf{x}_{2\times1}
+=
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+x \\
+\dot{x}
+\end{bmatrix}
+$$
 
-$$\det\begin{bmatrix} 0 - \lambda & 1 \\ -2 & -3 - \lambda \end{bmatrix} = 0$$
+The state-space equation is
 
-$$\lambda(\lambda + 3) - (1 \times -2) = 0$$
+$$
+\dot{\mathbf{x}}_{2\times1}
+=
+\mathbf{A}_{state}
+\mathbf{x}_{2\times1}
++
+\mathbf{B}_{2\times1}u
+$$
 
-$$\lambda^2 + 3\lambda + 2 = 0$$
+where
 
+$$
+u = F(t)
+$$
 
-Factoring the characteristic equation:
+The system matrix is
 
-$$(\lambda + 1)(\lambda + 2) = 0 \implies \lambda_1 = -1, \quad \lambda_2 = -2$$
+$$
+\mathbf{A}_{state}
+=
+\begin{bmatrix}
+0 & 1 \\
+-2 & -3
+\end{bmatrix}
+$$
 
+The input matrix is
 
-Solving for the fundamental structural eigenvectors:
+$$
+\mathbf{B}_{2\times1}
+=
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}
+$$
 
-$$\mathbf{v}_1 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}, \quad \mathbf{v}_2 = \begin{bmatrix} 1 \\ -2 \end{bmatrix}$$
+Therefore,
 
+$$
+\begin{bmatrix}
+\dot{x}_1 \\
+\dot{x}_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 & 1 \\
+-2 & -3
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
++
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}
+F(t)
+$$
 
-#### Step 6: Physical Interpretation Conclusion
-In mechanical design and vibration analysis, the state eigenvalues map directly to the system poles. Because both eigenvalues are purely **real and negative numbers**, the suspension system is definitively confirmed to be **overdamped**. If an external force disturbs the system, the fluid damper absorbs the kinetic energy efficiently enough to prevent all oscillation or bounce. The mass will slide smoothly and exponentially back to its rest position with zero lingering vibrations.
+Dimension check:
+
+$$
+(2\times2)(2\times1) + (2\times1)(1\times1) = (2\times1)
+$$
+
+---
+
+### 10.2 Determinant and Physical Meaning
+
+The determinant of the state matrix is
+
+$$
+\det(\mathbf{A}_{state})
+=
+(0)(-3) - (1)(-2)
+$$
+
+$$
+\det(\mathbf{A}_{state}) = 2
+$$
+
+Since
+
+$$
+\det(\mathbf{A}_{state}) > 0
+$$
+
+the state matrix is invertible.
+
+For this second-order mechanical system, the determinant is related to the stiffness-to-mass ratio:
+
+$$
+\det(\mathbf{A}_{state}) = \frac{k}{m}
+$$
+
+Here,
+
+$$
+\frac{k}{m} = \frac{2}{1} = 2
+$$
+
+This confirms that the spring provides a restoring effect in the system.
+
+---
+
+### 10.3 Equilibrium Position Under Constant Force
+
+Assume a constant force:
+
+$$
+F(t) = 10 \ \text{N}
+$$
+
+At steady state, the derivatives become zero:
+
+$$
+\dot{x}_1 = 0
+$$
+
+$$
+\dot{x}_2 = 0
+$$
+
+The state-space equation becomes
+
+$$
+\mathbf{0}
+=
+\mathbf{A}_{state}\mathbf{x}
++
+\mathbf{B}F
+$$
+
+So,
+
+$$
+\mathbf{A}_{state}\mathbf{x}
+=
+-\mathbf{B}F
+$$
+
+Substitute the values:
+
+$$
+\begin{bmatrix}
+0 & 1 \\
+-2 & -3
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
+=
+-
+\begin{bmatrix}
+0 \\
+1
+\end{bmatrix}
+10
+$$
+
+Therefore,
+
+$$
+\begin{bmatrix}
+0 & 1 \\
+-2 & -3
+\end{bmatrix}
+\begin{bmatrix}
+x_1 \\
+x_2
+\end{bmatrix}
+=
+\begin{bmatrix}
+0 \\
+-10
+\end{bmatrix}
+$$
+
+The main determinant is
+
+$$
+D = 2
+$$
+
+Replace the first column:
+
+$$
+\mathbf{A}_1
+=
+\begin{bmatrix}
+0 & 1 \\
+-10 & -3
+\end{bmatrix}
+$$
+
+$$
+D_1 = (0)(-3) - (1)(-10)
+$$
+
+$$
+D_1 = 10
+$$
+
+Therefore,
+
+$$
+x_1 = \frac{D_1}{D}
+=
+\frac{10}{2}
+=
+5 \ \text{m}
+$$
+
+At steady state,
+
+$$
+x_2 = 0
+$$
+
+Therefore, the final equilibrium state is
+
+$$
+\mathbf{x}_{ss}
+=
+\begin{bmatrix}
+5 \\
+0
+\end{bmatrix}
+$$
+
+This means the mass settles at
+
+$$
+x = 5 \ \text{m}
+$$
+
+with zero velocity.
+
+---
+
+### 10.4 Eigenvalues and System Behavior
+
+The characteristic equation is
+
+$$
+\det(\mathbf{A}_{state} - \lambda\mathbf{I}) = 0
+$$
+
+Thus,
+
+$$
+\det
+\begin{bmatrix}
+-\lambda & 1 \\
+-2 & -3-\lambda
+\end{bmatrix}
+=
+0
+$$
+
+Expanding:
+
+$$
+(-\lambda)(-3-\lambda) - (1)(-2) = 0
+$$
+
+$$
+\lambda(3+\lambda) + 2 = 0
+$$
+
+$$
+\lambda^2 + 3\lambda + 2 = 0
+$$
+
+Factoring:
+
+$$
+(\lambda+1)(\lambda+2)=0
+$$
+
+Therefore,
+
+$$
+\lambda_1 = -1
+$$
+
+$$
+\lambda_2 = -2
+$$
+
+For $\lambda_1 = -1$, the eigenvector is
+
+$$
+\mathbf{v}_1
+=
+\begin{bmatrix}
+1 \\
+-1
+\end{bmatrix}
+$$
+
+For $\lambda_2 = -2$, the eigenvector is
+
+$$
+\mathbf{v}_2
+=
+\begin{bmatrix}
+1 \\
+-2
+\end{bmatrix}
+$$
+
+Both eigenvalues are real and negative.
+
+Therefore, the system is stable and overdamped.
+
+Physically, this means that after a disturbance, the mass returns smoothly to equilibrium without oscillation.
+
+---
+
+## 11. Summary of Correct Matrix Dimensions
+
+The following table summarizes the correct matrix names and dimensions used in this document.
+
+| Application | Matrix name | Dimension | Meaning |
+|---|---:|---:|---|
+| General linear system | $\mathbf{A}$ | $m\times n$ | Coefficient matrix |
+| Square solvable system | $\mathbf{A}$ | $n\times n$ | Invertible coefficient matrix if $\det(\mathbf{A})\neq0$ |
+| Two-variable algebra example | $\mathbf{A}_{2\times2}$ | $2\times2$ | Coefficient matrix |
+| Unknown vector | $\mathbf{x}$ | $n\times1$ | Unknown variables |
+| Constant vector | $\mathbf{b}$ | $m\times1$ | Known outputs |
+| 2D stress tensor | $\boldsymbol{\sigma}_{2\times2}$ | $2\times2$ | Plane stress tensor |
+| 3D stress tensor | $\boldsymbol{\sigma}_{3\times3}$ | $3\times3$ | Full 3D Cauchy stress tensor |
+| Differential drive robot | $\mathbf{A}_{robot}$ | $2\times2$ | Wheel-to-body velocity transformation |
+| Robot manipulator | $\mathbf{J}_{2\times2}$ | $2\times2$ | Velocity Jacobian |
+| Suspension dynamics | $\mathbf{A}_{state}$ | $2\times2$ | State-space system matrix |
+| Suspension input matrix | $\mathbf{B}$ | $2\times1$ | Force input matrix |
+
+---
+
+## 12. Final Concept
+
+Matrix algebra is powerful because it allows many engineering systems to be written in one compact mathematical form.
+
+However, the meaning of each matrix depends on the physical context.
+
+A $2\times2$ matrix may represent:
+
+- A coefficient matrix in algebra
+- A stress tensor in 2D mechanics
+- A velocity transformation in robotics
+- A Jacobian matrix
+- A state-space system matrix
+
+A $3\times3$ matrix may represent:
+
+- A full 3D stress tensor
+- A 3D transformation matrix
+- A spatial inertia or dynamics matrix
+
+Therefore, matrix dimension must always be checked together with physical meaning.
+
+The most important rule is:
+
+$$
+\text{Inner dimensions must match.}
+$$
+
+For example,
+
+$$
+\mathbf{A}_{m\times n}\mathbf{x}_{n\times1}
+=
+\mathbf{b}_{m\times1}
+$$
+
+This rule ensures that the matrix operation is mathematically valid and physically meaningful.
