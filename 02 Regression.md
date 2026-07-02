@@ -2,7 +2,7 @@
 
 This document outlines a complete regression analysis for a uniaxial tensile test under a linear-elastic framework. The model accounts for an initial instrumentation offset or residual stress using the equation:
 
-$\sigma$ = E  $\epsilon + C$
+$\sigma$ = $E \cdot \epsilon + C$
 
 Where:
 
@@ -253,30 +253,6 @@ $\displaystyle R^2=0.99949$
 Therefore,
 
 $\boxed{R^2=0.9995}$
-
----
-
-## Mistake Point in the Original Calculation
-
-The original calculation was inconsistent because Step 5 used only the five mean stress values:
-
-$105,\ 211,\ 308,\ 415,\ 518$
-
-but the formula was written as if all 15 replicated data points were used.
-
-Also, the original slope was calculated as
-
-$\displaystyle b_1=\frac{1036.5}{7.5}=138.2$
-
-but the correct numerator for the 15 replicated data points is
-
-$\displaystyle \sum_{i=1}^{15}(x_i-\bar{x})(y_i-\bar{y})=1545.0$
-
-Therefore, the correct slope is
-
-$\displaystyle b_1=\frac{1545.0}{7.5}=206.0$
-
----
 
 ## Final Interpretation
 
