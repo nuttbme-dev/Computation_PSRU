@@ -171,8 +171,8 @@ $=19099.24+4774.81+0+4774.81+19099.24$
 
 $SSR=47748.10$
 
-Substituting the observed and predicted values,
 
+##### Step 5.3 Calculation SSE
 $SSE=(105-173.2)^2+(211-242.3)^2+(308-311.4)^2$
 
 $\qquad +(415-380.5)^2+(518-449.6)^2$
@@ -181,8 +181,29 @@ $=(-68.2)^2+(-31.3)^2+(-3.4)^2$
 
 $\qquad +(34.5)^2+(68.4)^2$
 
-$=4651.24+979.69+11.56$
+#### step 5.4 Calculate the Coefficient of Determination ($R^2$)
 
-$\qquad +1190.25+4678.56$
+The coefficient of determination is calculated as
 
-$SSE=11511.30$
+$R^2=\frac{SSR}{SST}$
+
+Substituting the calculated values,
+
+$R^2=\frac{47748.10}{106109.20}$
+
+$R^2=0.4499$
+
+Alternatively,
+
+$R^2=1-\frac{SSE}{SST}$
+
+Substituting the calculated values,
+
+$R^2=
+1-\frac{11511.30}{106109.20}$
+
+$R^2=1-0.1085$
+
+$R^2=
+0.8915$
+
