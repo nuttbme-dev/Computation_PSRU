@@ -2,7 +2,7 @@
 
 This document outlines a complete regression analysis for a uniaxial tensile test under a linear-elastic framework. The model accounts for an initial instrumentation offset or residual stress using the equation:
 
-$\sigma = E \cdot \epsilon + C$
+$\sigma$ = E  $\epsilon + C$
 
 Where:
 
