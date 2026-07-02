@@ -277,6 +277,8 @@ $$
 \det(\mathbf{A}) \neq 0
 $$
 
+![carmer](https://cdn.discordapp.com/attachments/1521724868738023507/1522191564296949881/Cramers-Rule.png?ex=6a4792dd&is=6a46415d&hm=6d9aa65c35c43f902ba7085ab73827eb2d6a312051e857ff6740953c30d00d1c&)
+
 ---
 
 ## 4. Engineering Application: 2D Stress Tensor Analysis
