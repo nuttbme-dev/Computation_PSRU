@@ -3,8 +3,26 @@
 In engineering, complex physical systems are rarely governed by isolated variables. Instead, real-world phenomena such as stress distribution in a structural beam, pressure distribution in a fluid element, or velocity transformation in a robotic system depend on several interrelated variables acting together.
 
 To describe these interdependent variables in a compact and systematic way, engineers use **linear systems of equations** and **matrix algebra**.
+#### Solid Mechanics
 
-![Stress tensor](<https://cdn.discordapp.com/attachments/1521724868738023507/1521725252852518942/image.png?ex=6a45e094&is=6a448f14&hm=dcc4e465ce40fb7614f8042cecba411e029744ffb0c21e1ee1285a0c1239fb28&>)
+![beam](https://cdn.discordapp.com/attachments/1521724868738023507/1522147942465540147/OIP.png?ex=6a476a3d&is=6a4618bd&hm=7fae569904f268e6f3ab4f978949c654ddd2c99af6fd117c85e20781509c5023&)
+
+#### Fluid Mechanics
+![drop](https://cdn.discordapp.com/attachments/1521724868738023507/1522150247902609458/image0.png?ex=6a476c63&is=6a461ae3&hm=21febba8d26dbb035b3b42c9bba81f168bc702da677e7a9b57875f96e0a1ab8b&)
+
+#### Stress Tensor
+#### 3D
+ ![3d](https://cdn.discordapp.com/attachments/1521724868738023507/1522154866452205678/616077213-ddf00d41-6037-43c1-bbf4-92e3e4ca6464.png?ex=6a4770b0&is=6a461f30&hm=b78db6d0d34fdc6931911b0c761e074415ff0d69bf2e246099769a19307338b8&)
+
+#### 3D -> 2D
+  ![project](https://cdn.discordapp.com/attachments/1521724868738023507/1522152439392768111/image0.jpg?ex=6a476e6d&is=6a461ced&hm=414ea89996ddd1f370c19bc9fb4dd30d83a60480c557e011481d3033d81f4e47&)
+
+ #### 2D
+ ![2D](https://cdn.discordapp.com/attachments/1521724868738023507/1522151489701810186/image0.gif?ex=6a476d8b&is=6a461c0b&hm=b233a47a73e6ccf06e272851fd3bc3c7b41bdfe754e8d27edbe423718c9c71e9&)
+ 
+
+
+
 
 A linear system can be written compactly as
 
@@ -69,7 +87,8 @@ b_2
 
 Therefore, the full matrix equation becomes
 
-$$\begin{bmatrix}a_{11} & a_{12} \\ a_{21} & a_{22}\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}=
+$$\begin{bmatrix}a_{11} & a_{12} \\ 
+a_{21} & a_{22}\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}=
 \begin{bmatrix}
 b_1 \\
 b_2
@@ -325,7 +344,8 @@ $$
 
 The matrix system becomes
 
-$$\begin{bmatrix}80 & 30 \\ 30 & 20\end{bmatrix}\begin{bmatrix}n_x \\ n_y\end{bmatrix}=
+$$\begin{bmatrix}80 & 30 \\ 
+30 & 20\end{bmatrix}\begin{bmatrix}n_x \\ n_y\end{bmatrix}=
 \begin{bmatrix}
 70 \\
 40
