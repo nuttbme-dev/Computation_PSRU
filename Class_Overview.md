@@ -1,0 +1,7 @@
+Week 4-5 Linear algebra (พีชคณิตเชิงเส้น)      
+​Week 5-6  Approximation theory (ทฤษฎีการประมาณค่าเบื้องต้น)
+Week 7-8 Solutions of linear algebraic equations and nonlinear equations (ผลเฉลยของสมการพีชคณิตและสมการอเชิงเส้น)
+Week ​9-11 First-order and second-order differential equations (สมการเชิงอนุพันธ์อันดับที่หนึ่งและอันดับที่สอง)
+Week ​12 Laplace transform (การแปลงลาปลาซ)
+Week ​13-14 Vector calculus (แคลคูลัสของเวกเตอร์)
+Week ​15 - 16 Numerical methods for solving differential equations and applications in civil engineering systems (ระเบียบวิธีเชิงตัวเลขสำหรับแก้สมการเชิงอนุพันธ์และการประยุกต์ใช้งานในระบบวิศวกรรมโยธา)
