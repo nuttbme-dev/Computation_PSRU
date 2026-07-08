@@ -87,8 +87,9 @@ b_2
 
 Therefore, the full matrix equation becomes
 
-$$\begin{bmatrix}a_{11} & a_{12} \\ 
-a_{21} & a_{22}\end{bmatrix}\begin{bmatrix}x_1 \\ x_2\end{bmatrix}=
+$$\begin{bmatrix}a_{11} & a_{12}\\ 
+a_{21} & a_{22}\end{bmatrix}\begin{bmatrix}x_1\\ 
+x_2\end{bmatrix}=
 \begin{bmatrix}
 b_1 \\
 b_2
