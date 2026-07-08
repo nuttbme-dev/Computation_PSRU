@@ -5,7 +5,7 @@ In engineering, complex physical systems are rarely governed by isolated variabl
 To describe these interdependent variables in a compact and systematic way, engineers use **linear systems of equations** and **matrix algebra**.
 #### Solid Mechanics
 
-![beam](https://cdn.discordapp.com/attachments/1521724868738023507/1522147942465540147/OIP.png?ex=6a476a3d&is=6a4618bd&hm=7fae569904f268e6f3ab4f978949c654ddd2c99af6fd117c85e20781509c5023&)
+![beam](https://cbsmn.com/wp-content/uploads/2022/11/image-7.jpeg)
 
 #### Fluid Mechanics
 ![drop](https://cdn.discordapp.com/attachments/1521724868738023507/1522150247902609458/image0.png?ex=6a476c63&is=6a461ae3&hm=21febba8d26dbb035b3b42c9bba81f168bc702da677e7a9b57875f96e0a1ab8b&)
