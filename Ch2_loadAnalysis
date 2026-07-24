@@ -1,0 +1,526 @@
+# ตัวอย่างโจทย์ออกแบบเสาค้ำสะพาน (Bridge Support Column)
+
+> **Chapter 2: Axial Load, Composite Members, Thermal Stress, Deformation, and Stress Transformation**
+
+---
+
+# วัตถุประสงค์ (Objectives)
+
+ตัวอย่างนี้ครอบคลุมหัวข้อสำคัญของวิชา **Mechanics of Materials** ได้แก่
+
+- การวิเคราะห์สมาชิกแบบวัสดุผสม (Composite Member)
+- การแบ่งแรงตามความแข็ง (Load Sharing by Stiffness)
+- การวิเคราะห์โครงสร้างไม่กำหนดสถิต (Statically Indeterminate Structure)
+- ความเค้นจากความร้อน (Thermal Stress)
+- การเปลี่ยนรูปของชิ้นส่วน (Axial Deformation)
+- ความเค้นบนระนาบเอียง (Stress Transformation)
+
+---
+
+# โจทย์ (Problem Statement)
+
+ออกแบบเสาค้ำรับน้ำหนักของสะพานคนเดิน (Pedestrian Bridge Support Column)
+
+เสาประกอบด้วย
+
+- แกนเหล็กตัน (Solid Steel Core)
+- ท่ออลูมิเนียมกลวง (Hollow Aluminum Tube)
+
+ทั้งสองวัสดุ **ยึดติดกันตลอดความยาว (Perfectly Bonded)**
+
+---
+
+## ข้อมูลกำหนด (Given)
+
+### External Load
+
+- แรงกด
+
+\[
+P=250\text{ kN}
+\]
+
+---
+
+### Steel Core
+
+| Property | Value |
+|-----------|-------|
+| Diameter | 100 mm |
+| Young's Modulus ($E_s$) | 200 GPa |
+| Thermal Expansion ($\alpha_s$) | $12\times10^{-6}/^\circ C$ |
+| Allowable Normal Stress | 150 MPa |
+
+---
+
+### Aluminum Tube
+
+| Property | Value |
+|-----------|-------|
+| Outside Diameter |150 mm|
+| Inside Diameter |105 mm|
+| Young's Modulus ($E_{al}$)|70 GPa|
+| Thermal Expansion ($\alpha_{al}$)|$23\times10^{-6}/^\circ C$|
+| Allowable Normal Stress|100 MPa|
+| Allowable Shear Stress|80 MPa|
+
+---
+
+### Geometry
+
+|Property|Value|
+|--------|-----|
+|Length|3000 mm|
+|Temperature Increase|40°C|
+
+---
+
+# สิ่งที่ต้องหา (Required)
+
+1. ความเค้นปกติ (Normal Stress)
+2. ความเค้นจากความร้อน (Thermal Stress)
+3. การเปลี่ยนรูปทั้งหมด (Total Deformation)
+4. ความเค้นเฉือนบนระนาบเอียง 45° (Shear Stress on Inclined Plane)
+5. ตรวจสอบความปลอดภัยของการออกแบบ (Design Verification)
+
+---
+
+# แนวคิดการแก้ปัญหา (Solution Strategy)
+
+เนื่องจากเหล็กและอลูมิเนียม
+
+- ยาวเท่ากัน
+- ยึดติดกันตลอดความยาว
+- ปลายรับแรงพร้อมกัน
+
+จึงมีเงื่อนไข
+
+> **Compatibility Condition**
+
+\[
+\delta_s=\delta_{al}
+\]
+
+กล่าวคือ
+
+ทั้งสองวัสดุต้องยืดหรือหดตัวเท่ากัน
+
+แรงจึงแบ่งตามค่าความแข็ง
+
+\[
+EA
+\]
+
+---
+
+# Step 1 คำนวณพื้นที่หน้าตัด (Cross-sectional Area)
+
+## Steel
+
+\[
+A_s=\frac{\pi}{4}d^2
+\]
+
+\[
+A_s
+=\frac{\pi}{4}(100)^2
+=7854\text{ mm}^2
+\]
+
+---
+
+## Aluminum
+
+\[
+A_{al}
+=
+\frac{\pi}{4}
+(d_o^2-d_i^2)
+\]
+
+\[
+A_{al}
+=
+9013
+\text{ mm}^2
+\]
+
+---
+
+# Step 2 คำนวณความแข็งของแต่ละวัสดุ (Axial Stiffness)
+
+\[
+E_sA_s
+=
+200000(7854)
+=
+1.5708\times10^9
+\]
+
+\[
+E_{al}A_{al}
+=
+70000(9013)
+=
+0.6309\times10^9
+\]
+
+รวม
+
+\[
+\sum EA
+=
+2.2017\times10^9
+\]
+
+---
+
+# Step 3 การแบ่งแรง (Load Sharing)
+
+เพราะ
+
+\[
+\delta_s=\delta_{al}
+\]
+
+จึงได้
+
+\[
+P_s
+=
+P
+\frac{E_sA_s}
+{E_sA_s+E_{al}A_{al}}
+\]
+
+\[
+P_s
+=
+178.4
+kN
+\]
+
+และ
+
+\[
+P_{al}
+=
+71.6
+kN
+\]
+
+---
+
+# Step 4 ความเค้นจากแรงภายนอก (Mechanical Stress)
+
+Steel
+
+\[
+\sigma_s
+=
+\frac{P_s}{A_s}
+=
+22.7
+MPa
+\]
+
+Compression
+
+---
+
+Aluminum
+
+\[
+\sigma_{al}
+=
+7.9
+MPa
+\]
+
+Compression
+
+---
+
+# Step 5 ความเค้นจากความร้อน (Thermal Stress)
+
+## การขยายตัวอิสระ (Free Thermal Expansion)
+
+Steel
+
+\[
+\delta_{T,s}
+=
+\alpha_sL\Delta T
+=
+1.44
+mm
+\]
+
+Aluminum
+
+\[
+\delta_{T,al}
+=
+2.76
+mm
+\]
+
+---
+
+## ความแตกต่างของการขยายตัว (Thermal Misfit)
+
+\[
+\delta_{misfit}
+=
+2.76-1.44
+=
+1.32
+mm
+\]
+
+---
+
+## Compatibility
+
+เมื่อวัสดุยึดติดกัน
+
+ต้องมี
+
+\[
+\delta_s=\delta_{al}
+\]
+
+จึงเกิดแรงภายในจากความร้อน
+
+(Thermal Force)
+
+\[
+P_T
+=
+\delta_{misfit}
+\frac{E_sA_sE_{al}A_{al}}
+{E_sA_s+E_{al}A_{al}}
+\]
+
+\[
+P_T
+=
+594
+kN
+\]
+
+---
+
+## Thermal Stress
+
+Steel
+
+\[
+\sigma_{T,s}
+=
+75.6
+MPa
+\]
+
+Tension
+
+---
+
+Aluminum
+
+\[
+\sigma_{T,al}
+=
+65.9
+MPa
+\]
+
+Compression
+
+---
+
+# Step 6 รวมความเค้น (Combined Stress)
+
+Steel
+
+\[
+\sigma_{net}
+=
+-22.7+75.6
+=
+52.9
+MPa
+\]
+
+Tension
+
+---
+
+Aluminum
+
+\[
+\sigma_{net}
+=
+-7.9-65.9
+=
+-73.8
+MPa
+\]
+
+Compression
+
+---
+
+# Step 7 การเปลี่ยนรูป (Axial Deformation)
+
+## Mechanical Deformation
+
+\[
+\delta_m
+=
+\frac{PL}
+{\sum EA}
+=
+0.34
+mm
+\]
+
+Compression
+
+---
+
+## Equivalent Thermal Expansion
+
+เนื่องจากวัสดุยึดติดกัน
+
+สามารถใช้
+
+\[
+\alpha_{eq}
+=
+\frac{\sum EA\alpha}
+{\sum EA}
+\]
+
+ได้
+
+\[
+\alpha_{eq}
+=
+15.2\times10^{-6}
+\]
+
+---
+
+## Thermal Expansion
+
+\[
+\delta_T
+=
+\alpha_{eq}
+L
+\Delta T
+=
+1.82
+mm
+\]
+
+---
+
+## Total Deformation
+
+\[
+\delta_{total}
+=
+-\delta_m+\delta_T
+=
+1.48
+mm
+\]
+
+---
+
+# Step 8 ความเค้นบนระนาบเอียง (Stress Transformation)
+
+สมการทั่วไป
+
+\[
+\tau
+=
+-\frac{\sigma_x-\sigma_y}{2}
+\sin2\theta
++
+\tau_{xy}
+\cos2\theta
+\]
+
+เนื่องจาก
+
+- $\sigma_y=0$
+- $\tau_{xy}=0$
+
+จึงได้
+
+\[
+\tau
+=
+\frac{\sigma}{2}
+\sin2\theta
+\]
+
+เมื่อ
+
+\[
+\theta=45^\circ
+\]
+
+จะได้
+
+\[
+\tau
+=
+\frac{\sigma}{2}
+\]
+
+ดังนั้น
+
+\[
+\tau
+=
+36.9
+MPa
+\]
+
+---
+
+# Step 9 ตรวจสอบความปลอดภัย (Design Verification)
+
+| รายการ | ค่าที่คำนวณ | ค่ายอมให้ | ผล |
+|---------|-------------|-----------|-----|
+| Steel Normal Stress |52.9 MPa|150 MPa|✅ Safe|
+| Aluminum Normal Stress |73.8 MPa|100 MPa|✅ Safe|
+| Aluminum Shear Stress |36.9 MPa|80 MPa|✅ Safe|
+| Total Deformation |1.48 mm|Acceptable|✅ Safe|
+
+---
+
+# สมมติฐานที่ใช้ (Assumptions)
+
+1. เหล็กและอลูมิเนียมยึดติดกันสมบูรณ์ (Perfect Bond)
+2. ไม่มีการลื่นระหว่างวัสดุ (No Slip)
+3. วัสดุเป็นเชิงเส้นยืดหยุ่น (Linear Elastic)
+4. อุณหภูมิเพิ่มขึ้นสม่ำเสมอ (Uniform Temperature Distribution)
+5. การโก่งตัว (Buckling) ไม่ถูกนำมาพิจารณา
+6. แรงกระทำเป็นแรงตามแนวแกน (Pure Axial Loading)
+
+---
+
+# บทสรุป (Conclusion)
+
+ตัวอย่างนี้เป็นโจทย์ที่รวมเนื้อหาหลักของบท **Axial Load และ Composite Members** โดยแสดงให้เห็นว่า
+
+- การแบ่งแรงเกิดจาก **Compatibility Condition**
+- ความเค้นจากความร้อนเกิดจากการขยายตัวไม่เท่ากันของวัสดุ (Thermal Misfit)
+- การเปลี่ยนรูปของโครงสร้างเกิดจากทั้งแรงภายนอกและอุณหภูมิ
+- ความเค้นบนระนาบเอียงสามารถหาได้จาก **Stress Transformation**
+- เมื่อเปรียบเทียบกับค่าที่ยอมให้ (Allowable Stress) พบว่าโครงสร้างนี้ **ผ่านเกณฑ์ความปลอดภัย (Safe Design)**
